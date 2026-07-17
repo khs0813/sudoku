@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config';
+---
+<BaseLayout title={`서비스 소개 | ${siteConfig.name}`} description={`${siteConfig.name}의 게임 구성, 저장 방식과 운영 원칙을 안내합니다.`}>
+  <section class="page-head"><div class="shell prose">
+    <nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>서비스 소개</span></nav>
+    <h1>{siteConfig.name} 소개</h1>
+    <p>{siteConfig.description}</p>
+  </div></section>
+  <section class="section compact"><div class="shell prose content-card">
+    <h2>가볍게 열고 바로 플레이</h2>
+    <p>로그인이나 회원가입 없이 게임을 시작할 수 있습니다. 핵심 화면은 정적 HTML로 제공하고 게임에 필요한 작은 JavaScript만 실행해 느린 모바일 환경에서도 빠르게 열리도록 설계했습니다.</p>
+    <h2>기록은 내 기기에만 저장</h2>
+    <p>이어하기, 연속 참여, 개인 최고점 같은 데이터는 브라우저의 localStorage에 저장됩니다. 서버나 데이터베이스로 전송하지 않으므로 다른 기기와 자동 동기화되지는 않습니다.</p>
+    <h2>매일 다시 찾을 이유</h2>
+    <p>날짜 기반 오늘의 도전과 개인 기록을 함께 제공합니다. 같은 날짜에는 같은 문제가 열려 친구와 결과를 비교하기 쉽고, 다음 날에는 새 도전이 준비됩니다.</p>
+  </div></section>
+</BaseLayout>

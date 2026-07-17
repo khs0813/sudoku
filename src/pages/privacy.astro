@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config';
+---
+<BaseLayout title={`개인정보 안내 | ${siteConfig.name}`} description={`${siteConfig.name}의 브라우저 저장, 분석 도구와 외부 전송 여부를 안내합니다.`}>
+  <section class="page-head"><div class="shell prose">
+    <nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>개인정보 안내</span></nav>
+    <h1>개인정보 안내</h1>
+    <p>기본 구성에서는 계정, 서버, 데이터베이스를 사용하지 않습니다.</p>
+  </div></section>
+  <section class="section compact"><div class="shell prose content-card">
+    <h2>브라우저 저장 데이터</h2>
+    <p>게임 진행 상태, 연속 기록, 개인 최고점과 설정은 현재 브라우저의 localStorage에 저장됩니다. 브라우저 데이터를 삭제하면 함께 사라지며 다른 기기로 전송되지 않습니다.</p>
+    <h2>분석 도구</h2>
+    <p>소스에는 선택형 Google Analytics 환경변수가 준비되어 있지만 값을 설정하지 않으면 분석 스크립트를 불러오지 않습니다. 실제 운영자가 분석 도구를 활성화하는 경우 별도 고지와 동의 요건을 확인해야 합니다.</p>
+    <h2>공유 기능</h2>
+    <p>공유 버튼은 운영체제의 Web Share 기능 또는 클립보드를 사용합니다. 사용자가 직접 실행할 때에만 결과 텍스트가 공유 대상 앱으로 전달됩니다.</p>
+    <p><small>최종 수정: 2026년 7월 15일</small></p>
+  </div></section>
+</BaseLayout>

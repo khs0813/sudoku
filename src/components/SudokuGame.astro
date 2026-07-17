@@ -1,0 +1,44 @@
+---
+interface Props { difficulty?: 'daily' | 'easy' | 'medium' | 'hard'; }
+const { difficulty = 'daily' } = Astro.props;
+const pageLabel = difficulty === 'daily' ? '오늘의 퍼즐' : difficulty === 'easy' ? '초급 스도쿠' : difficulty === 'medium' ? '중급 스도쿠' : '고급 스도쿠';
+---
+<div class="game-layout" data-sudoku data-difficulty={difficulty}>
+  <div class="game-main game-card sudoku-card">
+    <div class="game-topbar">
+      <div class="game-title"><h2>{pageLabel}</h2><p><span data-difficulty-label>난이도</span> · <span data-timer>00:00</span> · 실수 <span data-mistakes>0</span></p></div>
+      <button class="button small secondary" type="button" data-open-stats>내 기록</button>
+    </div>
+    <div class="sudoku-shell">
+      <div style="position:relative">
+        <div class="sudoku-board" data-sudoku-board role="grid" aria-label="9 곱하기 9 스도쿠 판"></div>
+        <button class="pause-layer" data-pause-layer type="button" hidden><span><strong style="display:block;font-size:1.5rem">일시정지</strong>눌러서 계속하기</span></button>
+      </div>
+      <div class="number-pad" aria-label="숫자 입력판">
+        {[1,2,3,4,5,6,7,8,9].map((n)=><button class="number-key game-key" type="button" data-number={n} aria-label={`${n} 입력`}>{n}</button>)}
+      </div>
+      <div class="sudoku-tools">
+        <button class="tool-key" type="button" data-tool="notes" aria-pressed="false">✎ 메모</button>
+        <button class="tool-key" type="button" data-tool="erase">⌫ 지우기</button>
+        <button class="tool-key" type="button" data-tool="undo">↶ 되돌리기</button>
+        <button class="tool-key" type="button" data-tool="hint">💡 힌트</button>
+      </div>
+      <div class="button-row" style="justify-content:center;margin-top:.65rem">
+        <button class="button small secondary" type="button" data-tool="pause">일시정지</button>
+        {difficulty !== 'daily' && <button class="button small secondary" type="button" data-new-puzzle>새 퍼즐</button>}
+      </div>
+      <p class="status" data-status role="status" aria-live="polite">빈칸을 선택하고 숫자를 입력하세요.</p>
+    </div>
+    <div class="mobile-game-actions">
+      <button class="button secondary" type="button" data-open-stats>기록</button>
+      {difficulty === 'daily' ? <button class="button primary" type="button" data-share-result>완료 후 공유</button> : <button class="button primary" type="button" data-new-puzzle>새 퍼즐</button>}
+    </div>
+  </div>
+  <aside class="game-side">
+    <section class="card"><h3>나의 스도쿠</h3><div class="stat-row"><div class="stat-box"><strong data-stat="completed">0</strong><span>완료</span></div><div class="stat-box"><strong data-stat="streak">0</strong><span>연속</span></div><div class="stat-box"><strong data-stat="max-streak">0</strong><span>최장</span></div></div></section>
+    <section class="card"><h3>빠른 이동</h3><div class="chips"><a class="chip" href="/easy/">초급</a><a class="chip" href="/medium/">중급</a><a class="chip" href="/hard/">고급</a></div><p class="notice" style="margin-top:.8rem">메모 모드에서는 후보 숫자를 여러 개 적을 수 있습니다.</p></section>
+  </aside>
+  <dialog class="dialog" data-result-dialog><div class="dialog-inner"><div class="dialog-head"><div><h2>퍼즐 완성!</h2><p data-result-summary></p></div><button class="icon-button" type="button" aria-label="닫기" data-close-dialog>×</button></div><div class="button-row"><button class="button primary" type="button" data-share-result>결과 공유</button>{difficulty !== 'daily' && <button class="button secondary" type="button" data-new-puzzle>다음 퍼즐</button>}</div></div></dialog>
+  <dialog class="dialog" data-stats-dialog><div class="dialog-inner"><div class="dialog-head"><h2>나의 스도쿠 기록</h2><button class="icon-button" type="button" aria-label="닫기" data-close-dialog>×</button></div><div class="stat-row"><div class="stat-box"><strong data-stat="completed">0</strong><span>완료</span></div><div class="stat-box"><strong data-stat="streak">0</strong><span>현재 연속</span></div><div class="stat-box"><strong data-stat="max-streak">0</strong><span>최장 연속</span></div></div><h3 style="margin-top:1.3rem">난이도별 최고 기록</h3><div class="metric"><span>초급</span><strong data-best="easy">--:--</strong></div><div class="metric"><span>중급</span><strong data-best="medium">--:--</strong></div><div class="metric"><span>고급</span><strong data-best="hard">--:--</strong></div></div></dialog>
+</div>
+<script src="/js/sudoku-game.js" defer></script>
