@@ -152,6 +152,7 @@ summary { cursor: pointer; font-weight: 900; }
 @media (max-width: 640px) {
   .shell { width: min(calc(100% - 1rem), var(--max)); }
   .brand small { display: none; }
+  .brand-mark { width: 44px; height: 44px; }
   .hero { padding-top: 2.35rem; }
   h1 { font-size: 2.2rem; }
   .page-head { padding-top: 1.9rem; }
@@ -161,6 +162,8 @@ summary { cursor: pointer; font-weight: 900; }
   .section-head { display: block; }
   .game-wrap { padding-top: .15rem; }
   .game-card { overflow: visible; border-radius: 20px; padding: .85rem; }
+  .button.small, .chip { min-height: 44px; }
+  .footer-links a { min-height: 44px; display: inline-flex; align-items: center; }
   .mobile-game-actions { display: flex; gap: .55rem; margin: 1rem 0 0; padding: .72rem 0 0; border-top: 1px solid var(--line); background: #fff; }
   .mobile-game-actions > * { flex: 1 1 0; min-width: 0; padding-inline: .48rem; white-space: nowrap; }
 }
@@ -192,7 +195,18 @@ summary { cursor: pointer; font-weight: 900; }
 .tool-key { min-height: 46px; padding: .4rem; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink); font-size: .8rem; font-weight: 850; line-height: 1.2; }
 .tool-key[aria-pressed="true"] { background: var(--brand); color: #fff; border-color: var(--brand); }
 .pause-layer { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; padding: 1rem; background: rgba(255,255,255,.94); text-align: center; }
-@media (max-width: 430px){ .game-card.sudoku-card{padding:.55rem}.number-pad{gap:.25rem}.number-key{min-height:44px;border-radius:10px}.sudoku-tools{grid-template-columns:repeat(4,1fr);gap:.28rem}.tool-key{font-size:.72rem;padding:.25rem} }
+@media (max-width: 430px) {
+  .game-wrap > .shell { width: 100%; }
+  .game-card.sudoku-card { padding: .35rem .35rem .65rem; border-inline: 0; border-radius: 0; }
+  .number-pad { grid-template-columns: repeat(3,minmax(0,1fr)); gap: .35rem; }
+  .number-key { min-height: 46px; border-radius: 10px; }
+  .sudoku-tools { grid-template-columns: repeat(4,1fr); gap: .28rem; }
+  .tool-key { font-size: .72rem; padding: .25rem; }
+}
+@media (max-width: 360px) {
+  .nav-list { gap: .12rem; }
+  .nav-link { min-width: 44px; padding-inline: .58rem; font-size: .86rem; }
+}
 
 .result-big { color: var(--brand-dark); font-weight: 950; font-variant-numeric: tabular-nums; }
 .score-ring { width: 158px; aspect-ratio: 1; display: grid; place-items: center; margin: 0 auto 1rem; border: 10px solid color-mix(in srgb, var(--brand) 20%, #fff); border-radius: 50%; background: #fff; text-align: center; box-shadow: var(--shadow-sm); }
