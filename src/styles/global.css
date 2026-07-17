@@ -77,10 +77,9 @@ button:disabled, .button[aria-disabled="true"] { cursor: not-allowed; opacity: .
 .section { padding: clamp(3.3rem, 8vw, 6.4rem) 0; }
 .section.compact { padding-block: 2.4rem; }
 .section.soft { background: color-mix(in srgb, var(--soft) 70%, #fff); border-block: 1px solid color-mix(in srgb, var(--line) 74%, #fff); }
-.adfit-slot { display: none; width: 100%; margin-inline: auto; flex-direction: column; align-items: center; justify-content: center; gap: .42rem; color: var(--muted); text-align: center; }
+.adfit-slot { display: none; width: 100%; margin-inline: auto; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); text-align: center; }
 .adfit-slot--game { margin-block: 4rem; }
 .adfit-slot--guide { margin-block: 3.5rem; }
-.adfit-label { color: var(--muted); font-size: .72rem; line-height: 1; }
 .adfit-frame { display: flex; align-items: flex-start; justify-content: center; margin-inline: auto; }
 .adfit-slot--desktop .adfit-frame { width: var(--adfit-desktop-width); min-height: var(--adfit-desktop-height); max-width: 100%; }
 .adfit-slot--mobile .adfit-frame { width: var(--adfit-mobile-width); min-height: var(--adfit-mobile-height); max-width: 100vw; }
@@ -157,10 +156,10 @@ summary { cursor: pointer; font-weight: 900; }
   .grid-3 { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 @media (min-width: 768px) {
-  .adfit-slot--has-desktop { display: flex; min-height: calc(var(--adfit-desktop-height) + 1.7rem); }
+  .adfit-slot--has-desktop { display: flex; min-height: var(--adfit-desktop-height); }
 }
 @media (max-width: 767px) {
-  .adfit-slot--has-mobile { display: flex; width: 100vw; max-width: 100vw; min-height: calc(var(--adfit-mobile-height) + 1.7rem); margin-inline: calc(50% - 50vw); }
+  .adfit-slot--has-mobile { display: flex; width: 100vw; max-width: 100vw; min-height: var(--adfit-mobile-height); margin-inline: calc(50% - 50vw); }
 }
 @media (max-width: 640px) {
   .shell { width: min(calc(100% - 1rem), var(--max)); }

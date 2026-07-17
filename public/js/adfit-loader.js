@@ -47,10 +47,6 @@
     slot.dataset.adfitDevice = device;
     slot.classList.add('adfit-slot--ready', `adfit-slot--${device}`);
 
-    const label = document.createElement('span');
-    label.className = 'adfit-label';
-    label.textContent = '광고';
-
     const frame = document.createElement('div');
     frame.className = 'adfit-frame';
 
@@ -62,7 +58,7 @@
     ad.setAttribute('data-ad-height', String(unit.height));
 
     frame.append(ad);
-    slot.append(label, frame);
+    slot.append(frame);
     hasAd = true;
   }
 
