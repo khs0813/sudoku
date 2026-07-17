@@ -37,7 +37,7 @@ Publish Directory: ./dist
 커스텀 도메인 사용 시:
 
 ```env
-SITE_URL=https://your-domain.example
+SITE_URL=https://sudokuday.co.kr
 ```
 
 ## 퍼즐 데이터

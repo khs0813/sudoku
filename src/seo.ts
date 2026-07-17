@@ -54,7 +54,7 @@ export const seoPages = [
     path: '/privacy/',
     title: `개인정보 안내 | ${siteConfig.name}`,
     description: `${siteConfig.name}의 브라우저 저장, 분석 도구와 외부 전송 여부를 안내합니다.`,
-    updated: '2026-07-15'
+    updated: '2026-07-17'
   }
 ] as const;
 

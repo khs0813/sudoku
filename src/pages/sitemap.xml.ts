@@ -5,7 +5,7 @@ const xmlEscape = (value: string) =>
   value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 
 export const GET: APIRoute = ({ site }) => {
-  const base = site ?? new URL('https://pocket-sudoku.onrender.com');
+  const base = site ?? new URL('https://sudokuday.co.kr');
   const urls = seoPages
     .map((page) => {
       const loc = xmlEscape(new URL(page.path, base).href);
