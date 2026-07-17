@@ -8,6 +8,26 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 22.16.0
+      - key: ADFIT_ENABLED
+        sync: false
+      - key: ADFIT_ALLOWED_HOSTS
+        sync: false
+      - key: ADFIT_GAME_DESKTOP_UNIT
+        sync: false
+      - key: ADFIT_GAME_MOBILE_UNIT
+        sync: false
+      - key: ADFIT_GAME_MOBILE_320X50_UNIT
+        sync: false
+      - key: ADFIT_GUIDE_DESKTOP_UNIT
+        sync: false
+      - key: ADFIT_GUIDE_MOBILE_UNIT
+        sync: false
+      - key: ADFIT_GAME_MOBILE_VARIANT
+        sync: false
+      - key: ADFIT_DESKTOP_HERO_MIN_WIDTH
+        sync: false
+      - key: ADFIT_MOBILE_MAX_WIDTH
+        sync: false
     headers:
       - path: /*
         name: X-Content-Type-Options

@@ -1,22 +1,21 @@
 ---
 import { adFitConfig } from '../config';
+import { createPlacementClientConfig } from '../adfit-config.mjs';
 
 interface Props {
   placement: 'game' | 'guide';
 }
 
 const { placement } = Astro.props;
-const units = adFitConfig.placements[placement];
-const hasDesktop = Boolean(units.desktop.unit);
-const hasMobile = Boolean(units.mobile.unit);
+const clientConfig = createPlacementClientConfig(adFitConfig, placement);
+const units = clientConfig.units;
+const hasDesktop = Boolean(units.desktop.id);
+const hasMobile = Boolean(units.mobile.id);
 const shouldRender = adFitConfig.enabled && (hasDesktop || hasMobile);
-const clientConfig = {
-  enabled: adFitConfig.enabled,
-  allowedHosts: adFitConfig.allowedHosts,
-  mobileMaxWidth: adFitConfig.mobileMaxWidth,
-  units: adFitConfig.placements
-};
-const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
+const configJson = JSON.stringify(clientConfig)
+  .replace(/</g, '\\u003c')
+  .replace(/>/g, '\\u003e')
+  .replace(/&/g, '\\u0026');
 const styleVars = [
   `--adfit-desktop-width:${units.desktop.width}px`,
   `--adfit-desktop-height:${units.desktop.height}px`,
@@ -33,9 +32,12 @@ const styleVars = [
         { 'adfit-slot--has-desktop': hasDesktop, 'adfit-slot--has-mobile': hasMobile }
       ]}
       data-adfit-placement={placement}
+      aria-label="광고"
       style={styleVars}
-    ></div>
-    <script is:inline type="application/json" data-adfit-config set:html={configJson}></script>
+    >
+      <span class="adfit-label">광고</span>
+    </div>
+    <script is:inline type="application/json" id="adfit-config" set:html={configJson}></script>
     <script src="/js/adfit-loader.js" defer></script>
   </>
 )}

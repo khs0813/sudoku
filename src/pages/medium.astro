@@ -3,8 +3,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AdFitSlot from '../components/AdFitSlot.astro';
 import SudokuGame from '../components/SudokuGame.astro';
 ---
-<BaseLayout title="중급 스도쿠 무료 게임 - 새 퍼즐 무제한 | 포켓 스도쿠" description="기본 규칙에 익숙한 사용자를 위한 균형 잡힌 무료 9×9 스도쿠입니다. 메모, 힌트, 되돌리기와 자동 이어하기를 지원합니다.">
-  <section class="page-head"><div class="shell"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>중급 스도쿠</span></nav><h1>중급 스도쿠 무료 게임</h1><p>기본 규칙에 익숙한 사용자를 위한 균형 잡힌 무료 9×9 스도쿠입니다. 완료 후 새 퍼즐 버튼으로 계속 플레이할 수 있습니다.</p></div></section>
-  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="medium" /><AdFitSlot placement="game" /></div></section>
-  <section class="section soft"><div class="shell prose content-card"><h2>중급 스도쿠 풀이 팁</h2><p>먼저 이미 채워진 숫자가 많은 행과 열을 살펴보세요. 한 칸에 들어갈 수 있는 숫자가 하나로 좁혀졌을 때 확정하고, 여러 후보가 남으면 메모 기능으로 기록해 두는 편이 안전합니다.</p><p>막혔을 때는 한 구역 안에서 특정 숫자가 들어갈 수 있는 행이나 열이 제한되는지 확인하세요.</p></div></section>
+<BaseLayout title="중급 스도쿠 무료 게임 | 스도쿠데이" description="기본 규칙에 익숙한 사용자를 위한 균형 잡힌 무료 중급 9×9 스도쿠입니다. 후보 메모와 행·열 비교를 연습할 수 있습니다.">
+  <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>중급 스도쿠</span></nav><h1>중급 스도쿠 무료 게임</h1><p>기본 규칙에 익숙한 사용자를 위한 균형 잡힌 무료 9×9 스도쿠입니다. 완료 후 새 퍼즐 버튼으로 계속 플레이할 수 있습니다.</p></div><AdFitSlot placement="game" /></div></section>
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="medium" /></div></section>
+  <section class="section soft"><div class="shell prose content-card">
+    <h2>숨은 단일 후보 찾기</h2>
+    <p>중급에서는 칸의 후보가 여러 개여도 특정 숫자가 한 행, 열, 구역에서 들어갈 수 있는 위치가 하나뿐인 경우가 자주 나옵니다. 숫자 하나를 정해 전체 판을 훑으면 숨은 단일 후보를 찾기 쉽습니다.</p>
+    <h2>잠긴 후보의 기초</h2>
+    <p>한 3×3 구역 안에서 특정 숫자의 후보가 같은 행이나 열에만 모여 있으면, 그 행이나 열의 다른 구역 후보를 지울 수 있습니다. 확정은 아니지만 후보를 줄이는 중요한 단서입니다.</p>
+    <h2>포인팅 페어 개념</h2>
+    <p>구역 안의 두 후보가 같은 줄에 나란히 놓이면 그 줄의 다른 칸에서는 해당 숫자를 제외할 수 있습니다. 중급 퍼즐을 풀 때는 확정 숫자와 후보 제거를 번갈아 적용하세요.</p>
+    <h2>후보 메모 정리 순서</h2>
+    <p>숫자를 하나 확정했다면 같은 행, 열, 구역에서 그 숫자 후보를 먼저 지웁니다. 그다음 새로 단일 후보가 된 칸이 있는지 확인하면 흐름이 끊기지 않습니다.</p>
+    <h2>한 구역에 오래 머무르지 않기</h2>
+    <p>중급에서 막히는 가장 흔한 이유는 한 구역만 반복해서 보는 것입니다. 한 번 훑어도 단서가 없으면 다른 숫자나 다른 구역으로 옮겨 새 연결고리를 찾으세요.</p>
+    <h2>중급 FAQ</h2>
+    <details><summary>중급부터는 메모가 꼭 필요한가요?</summary><p>대부분 필요합니다. 다만 모든 후보를 적기보다 두세 후보로 좁혀진 칸부터 정리하면 판을 읽기 쉽습니다.</p></details>
+    <details><summary>숨은 단일 후보와 단일 후보는 어떻게 다른가요?</summary><p>단일 후보는 한 칸에 들어갈 수 있는 숫자가 하나뿐인 상태입니다. 숨은 단일 후보는 특정 숫자가 한 단위 안에서 들어갈 칸이 하나뿐인 상태입니다.</p></details>
+    <details><summary>어떤 가이드를 같이 보면 좋나요?</summary><p><a href="/guide/strategy/">스도쿠 풀이 전략</a>의 단일 후보, 숨은 단일 후보, 메모 정리 단계를 함께 보면 중급 풀이 흐름을 잡기 좋습니다.</p></details>
+    <p><a class="button secondary" href="/easy/">초급으로 연습</a> <a class="button primary" href="/hard/">고급 도전</a></p>
+  </div></section>
 </BaseLayout>

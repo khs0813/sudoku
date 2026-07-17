@@ -3,8 +3,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AdFitSlot from '../components/AdFitSlot.astro';
 import SudokuGame from '../components/SudokuGame.astro';
 ---
-<BaseLayout title="초급 스도쿠 무료 게임 - 새 퍼즐 무제한 | 포켓 스도쿠" description="빈칸이 비교적 적어 처음 시작하는 사람도 부담 없이 풀 수 있는 무료 스도쿠입니다. 메모, 힌트, 되돌리기와 자동 이어하기를 지원합니다.">
-  <section class="page-head"><div class="shell"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>초급 스도쿠</span></nav><h1>초급 스도쿠 무료 게임</h1><p>빈칸이 비교적 적어 처음 시작하는 사람도 부담 없이 풀 수 있는 무료 스도쿠입니다. 완료 후 새 퍼즐 버튼으로 계속 플레이할 수 있습니다.</p></div></section>
-  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="easy" /><AdFitSlot placement="game" /></div></section>
-  <section class="section soft"><div class="shell prose content-card"><h2>초급 스도쿠 풀이 팁</h2><p>먼저 이미 채워진 숫자가 많은 행과 열을 살펴보세요. 한 칸에 들어갈 수 있는 숫자가 하나로 좁혀졌을 때 확정하고, 여러 후보가 남으면 메모 기능으로 기록해 두는 편이 안전합니다.</p><p>막혔을 때는 한 구역 안에서 특정 숫자가 들어갈 수 있는 행이나 열이 제한되는지 확인하세요.</p></div></section>
+<BaseLayout title="초급 스도쿠 무료 게임 | 스도쿠데이" description="빈칸이 비교적 적어 처음 시작하는 사람도 부담 없이 풀 수 있는 무료 초급 스도쿠입니다. 메모, 힌트, 되돌리기와 자동 이어하기를 지원합니다.">
+  <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>초급 스도쿠</span></nav><h1>초급 스도쿠 무료 게임</h1><p>빈칸이 비교적 적어 처음 시작하는 사람도 부담 없이 풀 수 있는 무료 스도쿠입니다. 완료 후 새 퍼즐 버튼으로 계속 플레이할 수 있습니다.</p></div><AdFitSlot placement="game" /></div></section>
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="easy" /></div></section>
+  <section class="section soft"><div class="shell prose content-card">
+    <h2>숫자가 많이 채워진 행과 열부터 보기</h2>
+    <p>초급 스도쿠에서는 이미 단서가 많은 줄을 먼저 보면 후보가 빠르게 줄어듭니다. 빈칸이 두세 개뿐인 행이나 열을 고르고, 그 줄에 없는 숫자를 하나씩 대입해 보세요.</p>
+    <h2>단일 후보를 먼저 확정하기</h2>
+    <p>같은 행, 열, 3×3 구역에 이미 있는 숫자를 제외했을 때 남는 후보가 하나뿐인 칸은 바로 확정할 수 있습니다. 초급에서는 이 단계를 반복하는 것만으로도 많은 칸이 열립니다.</p>
+    <h2>3×3 구역을 천천히 스캔하기</h2>
+    <p>구역 안에서 특정 숫자가 들어갈 수 있는 칸이 하나뿐인지 확인하세요. 행과 열만 보다가 막히면 3×3 구역 기준으로 시선을 바꾸는 것이 좋습니다.</p>
+    <h2>메모는 꼭 필요한 칸에만 쓰기</h2>
+    <p>처음부터 모든 빈칸에 후보를 적으면 오히려 복잡해질 수 있습니다. 두 후보로 좁혀진 칸이나 나중에 비교할 칸에만 메모를 남기고, 확정 숫자가 생기면 관련 후보를 정리하세요.</p>
+    <h2>초보자가 자주 하는 실수</h2>
+    <p>가로줄만 확인하고 세로줄이나 구역 검사를 빠뜨리면 오답이 생깁니다. 숫자를 넣기 전에는 항상 행, 열, 구역 세 조건을 함께 확인하세요. 기본 규칙은 <a href="/guide/rules/">스도쿠 규칙</a>에서 다시 볼 수 있습니다.</p>
+    <h2>초급 FAQ</h2>
+    <details><summary>초급 스도쿠는 무엇부터 시작하면 좋나요?</summary><p>빈칸이 가장 적은 행, 열, 구역부터 보세요. 후보가 하나만 남는 칸을 찾기 쉽습니다.</p></details>
+    <details><summary>메모를 많이 적어도 괜찮나요?</summary><p>초급에서는 필요한 칸에만 적는 편이 좋습니다. 후보가 너무 많으면 확정 가능한 칸을 놓치기 쉽습니다.</p></details>
+    <details><summary>막히면 힌트를 써도 되나요?</summary><p>힌트는 학습용으로 사용할 수 있습니다. 힌트를 본 뒤에는 왜 그 숫자가 들어가는지 행, 열, 구역 기준으로 다시 확인해 보세요.</p></details>
+    <p><a class="button secondary" href="/medium/">중급 스도쿠로 이동</a> <a class="button ghost" href="/guide/strategy/">풀이 전략 보기</a></p>
+  </div></section>
 </BaseLayout>

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build && node scripts/generate-sw.mjs",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test:adfit": "node scripts/test-adfit-config.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",

@@ -3,8 +3,24 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AdFitSlot from '../components/AdFitSlot.astro';
 import SudokuGame from '../components/SudokuGame.astro';
 ---
-<BaseLayout title="고급 스도쿠 무료 게임 - 새 퍼즐 무제한 | 포켓 스도쿠" description="단서가 적고 후보 비교가 필요한 도전적인 무료 9×9 스도쿠입니다. 메모, 힌트, 되돌리기와 자동 이어하기를 지원합니다.">
-  <section class="page-head"><div class="shell"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>고급 스도쿠</span></nav><h1>고급 스도쿠 무료 게임</h1><p>단서가 적고 후보 비교가 필요한 도전적인 무료 9×9 스도쿠입니다. 완료 후 새 퍼즐 버튼으로 계속 플레이할 수 있습니다.</p></div></section>
-  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="hard" /><AdFitSlot placement="game" /></div></section>
-  <section class="section soft"><div class="shell prose content-card"><h2>고급 스도쿠 풀이 팁</h2><p>먼저 이미 채워진 숫자가 많은 행과 열을 살펴보세요. 한 칸에 들어갈 수 있는 숫자가 하나로 좁혀졌을 때 확정하고, 여러 후보가 남으면 메모 기능으로 기록해 두는 편이 안전합니다.</p><p>막혔을 때는 한 구역 안에서 특정 숫자가 들어갈 수 있는 행이나 열이 제한되는지 확인하세요.</p></div></section>
+<BaseLayout title="고급 스도쿠 무료 게임 | 스도쿠데이" description="단서가 적고 후보 비교가 필요한 도전적인 무료 고급 9×9 스도쿠입니다. 네이키드 페어와 박스-라인 감소를 연습할 수 있습니다.">
+  <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>고급 스도쿠</span></nav><h1>고급 스도쿠 무료 게임</h1><p>단서가 적고 후보 비교가 필요한 도전적인 무료 9×9 스도쿠입니다. 완료 후 새 퍼즐 버튼으로 계속 플레이할 수 있습니다.</p></div><AdFitSlot placement="game" /></div></section>
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="hard" /></div></section>
+  <section class="section soft"><div class="shell prose content-card">
+    <h2>네이키드 페어 기초</h2>
+    <p>같은 행, 열, 구역 안에서 두 칸의 후보가 동일한 두 숫자로만 구성되면 그 두 숫자는 해당 두 칸에만 들어갑니다. 따라서 같은 단위의 다른 칸에서는 그 후보를 제거할 수 있습니다.</p>
+    <h2>박스-라인 감소</h2>
+    <p>한 숫자의 후보가 특정 구역 안에서 같은 행이나 열에만 놓이면, 그 행이나 열의 다른 구역 후보를 지워 보세요. 고급 퍼즐에서는 이 후보 제거가 다음 확정 숫자로 이어지는 경우가 많습니다.</p>
+    <h2>X-Wing 전 기본 점검</h2>
+    <p>복잡한 패턴을 찾기 전에 단일 후보, 숨은 단일 후보, 페어 후보를 먼저 정리하세요. 기본 후보 정리가 끝나지 않은 상태에서 X-Wing을 찾으면 불필요하게 어렵게 느껴집니다.</p>
+    <h2>후보 체인 확인</h2>
+    <p>한 후보를 지웠을 때 어떤 칸이 단일 후보가 되는지 연결해서 생각해 보세요. 단, 확실한 논리로 제거할 수 있는 후보만 지우고 추측으로 숫자를 넣지는 않는 편이 안전합니다.</p>
+    <h2>추측을 피하는 이유</h2>
+    <p>고급 스도쿠는 한 번의 추측이 여러 칸의 오류로 번질 수 있습니다. 막히면 후보를 다시 정리하고, <a href="/guide/strategy/">풀이 전략</a>의 기본 단계를 거꾸로 점검하세요.</p>
+    <h2>고급 FAQ</h2>
+    <details><summary>고급 스도쿠는 추측해야 풀 수 있나요?</summary><p>이 사이트의 퍼즐은 논리 풀이를 기준으로 제공합니다. 추측보다 후보 제거와 패턴 확인을 반복하는 편이 안정적입니다.</p></details>
+    <details><summary>네이키드 페어는 언제 찾으면 좋나요?</summary><p>확정 숫자를 더 찾기 어렵고 후보가 두 개로 좁혀진 칸이 많아졌을 때 확인하면 좋습니다.</p></details>
+    <details><summary>고급이 너무 어렵다면 어디서 연습하나요?</summary><p><a href="/medium/">중급 스도쿠</a>에서 숨은 단일 후보와 잠긴 후보를 충분히 연습한 뒤 다시 도전해 보세요.</p></details>
+    <p><a class="button secondary" href="/medium/">중급으로 돌아가기</a> <a class="button ghost" href="/guide/rules/">규칙 다시 보기</a></p>
+  </div></section>
 </BaseLayout>

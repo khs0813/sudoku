@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AdFitSlot from '../components/AdFitSlot.astro';
 import SudokuGame from '../components/SudokuGame.astro';
 ---
-<BaseLayout title="무료 스도쿠 게임 - 오늘의 모바일 퍼즐 | 포켓 스도쿠" description="매일 새로 바뀌는 무료 9×9 스도쿠를 모바일과 데스크톱에서 풀어 보세요. 메모, 힌트, 되돌리기, 이어하기와 연속 기록을 지원합니다.">
-  <section class="page-head"><div class="shell"><span class="eyebrow">오늘의 9×9 퍼즐</span><h1>무료 스도쿠, 손안에서 매일 한 판</h1><p>숫자 중복 없이 모든 칸을 채우세요. 오늘의 난이도는 날짜에 따라 바뀌고 진행 상황은 현재 브라우저에 자동 저장됩니다.</p></div></section>
-  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="daily" /><AdFitSlot placement="game" /></div></section>
+<BaseLayout title="무료 스도쿠 게임 - 오늘의 스도쿠 | 스도쿠데이" description="매일 새로 바뀌는 무료 9×9 스도쿠를 모바일과 데스크톱에서 풀어 보세요. 메모, 힌트, 되돌리기, 이어하기와 연속 기록을 지원합니다.">
+  <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><span class="eyebrow">오늘의 9×9 퍼즐</span><h1>무료 스도쿠, 오늘도 한 판</h1><p>숫자 중복 없이 모든 칸을 채우세요. 오늘의 난이도는 날짜에 따라 바뀌고 진행 상황은 현재 브라우저에 자동 저장됩니다.</p></div><AdFitSlot placement="game" /></div></section>
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="daily" /></div></section>
   <section class="section soft"><div class="shell"><div class="section-head"><div><span class="eyebrow">초급부터 고급까지</span><h2>내 수준에 맞는 스도쿠</h2></div><p>오늘의 퍼즐을 마쳤다면 난이도별 무제한 모드에서 새 문제를 계속 풀 수 있습니다.</p></div><div class="grid-3"><a class="card card-link" href="/easy/"><span class="icon-badge">🌱</span><h3>초급 스도쿠</h3><p>빈칸이 비교적 적어 규칙을 익히고 빠르게 완성하기 좋습니다.</p></a><a class="card card-link" href="/medium/"><span class="icon-badge">🧩</span><h3>중급 스도쿠</h3><p>후보 숫자 메모와 행·열 비교가 필요한 균형 잡힌 난이도입니다.</p></a><a class="card card-link" href="/hard/"><span class="icon-badge">🔥</span><h3>고급 스도쿠</h3><p>단서가 적어 여러 구역을 함께 살펴야 하는 도전적인 퍼즐입니다.</p></a></div></div></section>
   <section class="section"><div class="shell grid-2"><article class="content-card prose"><h2>스도쿠 기본 규칙</h2><p>각 가로줄, 세로줄, 굵은 선으로 나뉜 3×3 구역에 1부터 9까지 숫자가 한 번씩 들어가야 합니다.</p><a class="button secondary" href="/guide/rules/">규칙 자세히 보기</a></article><article class="content-card prose"><h2>처음 풀 때의 핵심</h2><p>한 숫자가 들어갈 수 있는 칸이 하나뿐인 행·열·구역부터 찾으세요. 확실하지 않은 숫자는 메모 모드에 후보로 남길 수 있습니다.</p><a class="button primary" href="/guide/strategy/">풀이 전략 읽기</a></article></div></section>
 </BaseLayout>

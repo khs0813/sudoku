@@ -231,8 +231,8 @@
 
   async function shareResult(){
     if(!state.completed){window.showToast?.('완료 후 공유할 수 있어요.');return;}
-    const text=`포켓 스도쿠 ${requestedDifficulty==='daily'?todayKey():'연습'}\n${labels[difficulty]} ${formatTime(state.elapsed)} · 실수 ${state.mistakes} · 힌트 ${state.hints}\n🟩 완료\n${location.origin}`;
-    try{if(navigator.share)await navigator.share({title:'포켓 스도쿠 결과',text});else{await navigator.clipboard.writeText(text);window.showToast?.('결과를 복사했어요.');}}catch(error){if(error?.name!=='AbortError')window.showToast?.('공유하지 못했어요.');}
+    const text=`스도쿠데이 ${requestedDifficulty==='daily'?todayKey():'연습'}\n${labels[difficulty]} ${formatTime(state.elapsed)} · 실수 ${state.mistakes} · 힌트 ${state.hints}\n🟩 완료\n${location.origin}`;
+    try{if(navigator.share)await navigator.share({title:'스도쿠데이 결과',text});else{await navigator.clipboard.writeText(text);window.showToast?.('결과를 복사했어요.');}}catch(error){if(error?.name!=='AbortError')window.showToast?.('공유하지 못했어요.');}
   }
 
   function newPuzzle(){
