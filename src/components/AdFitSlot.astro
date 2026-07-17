@@ -1,0 +1,42 @@
+---
+import { adFitConfig } from '../config';
+
+interface Props {
+  placement: 'game' | 'guide';
+}
+
+const { placement } = Astro.props;
+const units = adFitConfig.placements[placement];
+const hasDesktop = Boolean(units.desktop.unit);
+const hasMobile = Boolean(units.mobile.unit);
+const shouldRender = adFitConfig.enabled && (hasDesktop || hasMobile);
+const clientConfig = {
+  enabled: adFitConfig.enabled,
+  allowedHosts: adFitConfig.allowedHosts,
+  mobileMaxWidth: adFitConfig.mobileMaxWidth,
+  units: adFitConfig.placements
+};
+const configJson = JSON.stringify(clientConfig).replace(/</g, '\\u003c');
+const styleVars = [
+  `--adfit-desktop-width:${units.desktop.width}px`,
+  `--adfit-desktop-height:${units.desktop.height}px`,
+  `--adfit-mobile-width:${units.mobile.width}px`,
+  `--adfit-mobile-height:${units.mobile.height}px`
+].join(';');
+---
+{shouldRender && (
+  <>
+    <div
+      class:list={[
+        'adfit-slot',
+        `adfit-slot--${placement}`,
+        { 'adfit-slot--has-desktop': hasDesktop, 'adfit-slot--has-mobile': hasMobile }
+      ]}
+      data-adfit-placement={placement}
+      aria-label="광고"
+      style={styleVars}
+    ></div>
+    <script is:inline type="application/json" data-adfit-config set:html={configJson}></script>
+    <script src="/js/adfit-loader.js" defer></script>
+  </>
+)}

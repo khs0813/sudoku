@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AdFitSlot from '../components/AdFitSlot.astro';
 import SudokuGame from '../components/SudokuGame.astro';
 ---
 <BaseLayout title="고급 스도쿠 무료 게임 - 새 퍼즐 무제한 | 포켓 스도쿠" description="단서가 적고 후보 비교가 필요한 도전적인 무료 9×9 스도쿠입니다. 메모, 힌트, 되돌리기와 자동 이어하기를 지원합니다.">
   <section class="page-head"><div class="shell"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>고급 스도쿠</span></nav><h1>고급 스도쿠 무료 게임</h1><p>단서가 적고 후보 비교가 필요한 도전적인 무료 9×9 스도쿠입니다. 완료 후 새 퍼즐 버튼으로 계속 플레이할 수 있습니다.</p></div></section>
-  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="hard" /></div></section>
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="hard" /><AdFitSlot placement="game" /></div></section>
   <section class="section soft"><div class="shell prose content-card"><h2>고급 스도쿠 풀이 팁</h2><p>먼저 이미 채워진 숫자가 많은 행과 열을 살펴보세요. 한 칸에 들어갈 수 있는 숫자가 하나로 좁혀졌을 때 확정하고, 여러 후보가 남으면 메모 기능으로 기록해 두는 편이 안전합니다.</p><p>막혔을 때는 한 구역 안에서 특정 숫자가 들어갈 수 있는 행이나 열이 제한되는지 확인하세요.</p></div></section>
 </BaseLayout>
