@@ -32,6 +32,11 @@
   const mobileMaxWidth = Number.isFinite(Number(config.mobileMaxWidth)) ? Number(config.mobileMaxWidth) : 767;
   const device = window.matchMedia(`(max-width: ${mobileMaxWidth}px)`).matches ? 'mobile' : 'desktop';
   let hasAd = false;
+  let sdkAnchor = null;
+
+  window.__pocketSudokuAdFitOnFail = (error) => {
+    console.warn('AdFit request failed or returned no ad.', error);
+  };
 
   for (const slot of slots) {
     if (slot.dataset.adfitLoaded === 'true') continue;
@@ -56,9 +61,11 @@
     ad.setAttribute('data-ad-unit', unit.unit);
     ad.setAttribute('data-ad-width', String(unit.width));
     ad.setAttribute('data-ad-height', String(unit.height));
+    ad.setAttribute('data-ad-onfail', '__pocketSudokuAdFitOnFail');
 
     frame.append(ad);
     slot.append(frame);
+    sdkAnchor = sdkAnchor || ad;
     hasAd = true;
   }
 
@@ -69,5 +76,5 @@
   script.type = 'text/javascript';
   script.charset = 'utf-8';
   script.src = SDK_SRC;
-  document.head.append(script);
+  sdkAnchor?.after(script);
 })();
