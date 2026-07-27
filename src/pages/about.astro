@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteConfig } from '../config';
+import { getSeoPage } from '../seo';
+const seo = getSeoPage('/about/');
 ---
-<BaseLayout title={`서비스 소개 | ${siteConfig.name}`} description={`${siteConfig.name}의 게임 구성, 저장 방식과 운영 원칙을 안내합니다.`}>
+<BaseLayout title={seo.title} description={seo.description}>
   <section class="page-head"><div class="shell prose">
     <nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>서비스 소개</span></nav>
     <h1>{siteConfig.name} 소개</h1>

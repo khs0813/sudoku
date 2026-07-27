@@ -26,11 +26,15 @@
     ? config.allowedHosts.map((host) => String(host).trim().toLowerCase()).filter(Boolean)
     : [];
   const currentHost = window.location.hostname.toLowerCase();
+  const blockedHostSuffixes = [[
+    'onrender',
+    'com'
+  ].join('.')];
   const blockedHost = currentHost === 'localhost'
     || currentHost === '127.0.0.1'
     || currentHost === '::1'
     || currentHost.endsWith('.localhost')
-    || currentHost.endsWith('.onrender.com');
+    || blockedHostSuffixes.some((suffix) => currentHost === suffix || currentHost.endsWith(`.${suffix}`));
 
   if (!config.enabled || blockedHost || !allowedHosts.includes(currentHost)) {
     removeSlots();

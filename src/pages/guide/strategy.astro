@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AdFitSlot from '../../components/AdFitSlot.astro';
+import { getSeoPage } from '../../seo';
+const seo = getSeoPage('/guide/strategy/');
 ---
-<BaseLayout title="스도쿠 푸는 법과 초보 풀이 전략 | 스도쿠데이" description="스도쿠 초보가 사용할 수 있는 단일 후보, 숨은 단일 후보, 후보 메모, 구역과 행 비교 방법을 단계별로 설명합니다.">
+<BaseLayout title={seo.title} description={seo.description}>
   <section class="page-head"><div class="shell prose"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>풀이 전략</span></nav><h1>스도쿠 잘 푸는 법</h1><p>추측보다 확실한 칸을 반복해서 찾는 것이 가장 빠르고 안정적인 방법입니다.</p></div></section>
   <section class="section compact guide-flow">
     <div class="shell prose content-card"><h2>1. 숫자가 많이 채워진 곳부터</h2><p>빈칸이 적은 행, 열, 3×3 구역은 가능한 숫자를 빠르게 좁힐 수 있습니다.</p><h2>2. 단일 후보 찾기</h2><p>같은 행·열·구역에 이미 있는 숫자를 제외했을 때 후보가 하나만 남는 칸을 먼저 채웁니다.</p><h2>3. 숨은 단일 후보 찾기</h2><p>한 구역에서 특정 숫자를 넣을 수 있는 칸이 오직 하나라면, 그 칸에 다른 후보가 있더라도 해당 숫자를 확정할 수 있습니다.</p></div>

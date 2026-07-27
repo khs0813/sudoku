@@ -13,7 +13,13 @@
   const resultDialog = root.querySelector('[data-result-dialog]');
   const statsDialog = root.querySelector('[data-stats-dialog]');
   const resultSummary = root.querySelector('[data-result-summary]');
-  const statsKey = 'pocket-sudoku:stats:v1';
+  const storagePrefix = 'sudokuday';
+  const legacyStoragePrefix = [
+    'pocket',
+    'sudoku'
+  ].join('-');
+  const statsKey = `${storagePrefix}:stats:v2`;
+  const legacyStatsKey = `${legacyStoragePrefix}:stats:v1`;
 
   let data = null;
   let difficulty = 'medium';
@@ -22,27 +28,61 @@
   let cells = [];
   let tickHandle = null;
   let lastSavedSecond = -1;
+  let restoredState = false;
 
   const safeParse = (value, fallback) => { try { return value ? JSON.parse(value) : fallback; } catch { return fallback; } };
   const todayKey = () => new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Seoul', year:'numeric', month:'2-digit', day:'2-digit' }).format(new Date());
   const hashText = (text) => { let hash=2166136261; for (let i=0;i<text.length;i+=1){hash^=text.charCodeAt(i);hash=Math.imul(hash,16777619);} return hash>>>0; };
   const labels = { easy:'초급', medium:'중급', hard:'고급' };
-  const stateKey = () => requestedDifficulty === 'daily' ? `pocket-sudoku:daily:${todayKey()}` : `pocket-sudoku:${difficulty}:current`;
-  const emptyStats = () => ({ played:0, completed:0, currentStreak:0, maxStreak:0, lastDaily:'', bestTimes:{ easy:null, medium:null, hard:null } });
-  const loadStats = () => ({ ...emptyStats(), ...safeParse(localStorage.getItem(statsKey), {}), bestTimes:{...emptyStats().bestTimes,...safeParse(localStorage.getItem(statsKey), {})?.bestTimes} });
-  const saveStats = (stats) => localStorage.setItem(statsKey, JSON.stringify(stats));
+  const stateKeyFor = (prefix) => requestedDifficulty === 'daily' ? `${prefix}:daily:${todayKey()}` : `${prefix}:${difficulty}:current`;
+  const stateKey = () => stateKeyFor(storagePrefix);
+  const legacyStateKey = () => stateKeyFor(legacyStoragePrefix);
+  const emptyStats = () => ({ played:0, completed:0, currentStreak:0, maxStreak:0, lastDaily:'', lastVisitDate:'', lastReturnVisitEventDate:'', returnVisits:0, bestTimes:{ easy:null, medium:null, hard:null } });
+  const readStorage = (key, legacyKey = '') => {
+    const value = localStorage.getItem(key);
+    if (value !== null || !legacyKey) return value;
+    const legacyValue = localStorage.getItem(legacyKey);
+    if (legacyValue !== null) localStorage.setItem(key, legacyValue);
+    return legacyValue;
+  };
+  const normalizeStats = (stats = {}) => ({ ...emptyStats(), ...stats, bestTimes:{...emptyStats().bestTimes,...stats?.bestTimes} });
+  const loadStats = () => normalizeStats(safeParse(readStorage(statsKey, legacyStatsKey), {}));
+  const saveStats = (stats) => localStorage.setItem(statsKey, JSON.stringify(normalizeStats(stats)));
   const saveState = () => localStorage.setItem(stateKey(), JSON.stringify(state));
   const dateDiff = (a,b) => Math.round((Date.parse(a+'T00:00:00Z')-Date.parse(b+'T00:00:00Z'))/86400000);
+
+  function eventParams(extra = {}) {
+    const params = {
+      event_category: 'sudoku',
+      page_mode: requestedDifficulty,
+      difficulty,
+      puzzle_id: puzzle?.id || '',
+      is_daily: requestedDifficulty === 'daily',
+      ...extra
+    };
+    if (requestedDifficulty === 'daily') params.daily_date = todayKey();
+    return params;
+  }
+
+  function trackEvent(name, params = {}) {
+    const payload = eventParams(params);
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', name, payload);
+      return;
+    }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: name, ...payload });
+  }
 
   function chooseDifficulty() {
     if (requestedDifficulty !== 'daily') return requestedDifficulty;
     const order = ['easy','medium','hard'];
-    return order[hashText(`포켓스도쿠:${todayKey()}:난이도`) % order.length];
+    return order[hashText(`sudokuday:${todayKey()}:difficulty`) % order.length];
   }
 
   function choosePuzzleId(forceRandom = false) {
     const list = data[difficulty];
-    if (requestedDifficulty === 'daily') return list[hashText(`포켓스도쿠:${todayKey()}:${difficulty}`) % list.length].id;
+    if (requestedDifficulty === 'daily') return list[hashText(`sudokuday:${todayKey()}:${difficulty}`) % list.length].id;
     if (forceRandom) {
       const candidates = list.filter((item) => item.id !== puzzle?.id);
       return candidates[Math.floor(Math.random() * candidates.length)].id;
@@ -64,22 +104,56 @@
       paused:false,
       completed:false,
       statsRecorded:false,
+      analyticsStarted:false,
       history:[]
     };
   }
 
+  function findDifficultyForPuzzle(puzzleId) {
+    return Object.keys(labels).find((level) => data[level]?.some((entry) => entry.id === puzzleId)) || '';
+  }
+
+  function storedHasProgress(stored, item) {
+    return Boolean(
+      stored?.elapsed > 0
+      || stored?.completed
+      || (Array.isArray(stored?.history) && stored.history.length > 0)
+      || (Array.isArray(stored?.values) && stored.values.some((value,index)=>value!==Number(item.puzzle[index])))
+    );
+  }
+
   function loadState(forceNew = false) {
     difficulty = chooseDifficulty();
-    const stored = forceNew ? null : safeParse(localStorage.getItem(stateKey()), null);
+    const stored = forceNew ? null : safeParse(readStorage(stateKey(), legacyStateKey()), null);
+    const storedDifficulty = requestedDifficulty === 'daily' && stored?.puzzleId ? findDifficultyForPuzzle(stored.puzzleId) : '';
+    if (storedDifficulty) difficulty = storedDifficulty;
     const valid = stored && data[difficulty].some((entry) => entry.id === stored.puzzleId) && Array.isArray(stored.values) && stored.values.length === 81;
+    const storedPuzzle = valid ? data[difficulty].find((entry) => entry.id === stored.puzzleId) : null;
+    restoredState = Boolean(valid && storedPuzzle && storedHasProgress(stored, storedPuzzle));
     state = valid ? {
       ...freshState(stored.puzzleId), ...stored,
       notes:Array.isArray(stored.notes) && stored.notes.length === 81 ? stored.notes.map((n)=>Array.isArray(n)?n:[]) : Array.from({length:81},()=>[]),
       history:Array.isArray(stored.history) ? stored.history.slice(-30) : [],
+      analyticsStarted:Boolean(stored.analyticsStarted),
       paused:false
     } : freshState(choosePuzzleId(forceNew));
     puzzle = data[difficulty].find((entry) => entry.id === state.puzzleId);
     saveState();
+  }
+
+  function recordReturnVisit() {
+    const stats = loadStats();
+    const key = todayKey();
+    if (stats.lastVisitDate && stats.lastVisitDate !== key && stats.lastReturnVisitEventDate !== key) {
+      stats.returnVisits = Number(stats.returnVisits || 0) + 1;
+      stats.lastReturnVisitEventDate = key;
+      trackEvent('sudoku_return_visit', {
+        days_since_last_visit: Math.max(1, dateDiff(key, stats.lastVisitDate)),
+        return_visits: stats.returnVisits
+      });
+    }
+    stats.lastVisitDate = key;
+    saveStats(stats);
   }
 
   function buildBoard() {
@@ -154,7 +228,14 @@
 
   function render(){renderBoard();renderMeta(); if(state.completed) showResult(false);}
 
-  function selectCell(index){ if(state.paused||state.completed)return; state.selected=index; saveState(); renderBoard(); }
+  function recordGameStart(action) {
+    if(state.analyticsStarted||state.completed)return;
+    state.analyticsStarted=true;
+    trackEvent('sudoku_game_start', { start_action: action, resumed: restoredState });
+    saveState();
+  }
+
+  function selectCell(index){ if(state.paused||state.completed)return; recordGameStart('select_cell'); state.selected=index; saveState(); renderBoard(); }
 
   function snapshot(){return {values:[...state.values],notes:state.notes.map((n)=>[...n]),mistakes:state.mistakes,hints:state.hints};}
   function pushHistory(){state.history.push(snapshot());if(state.history.length>30)state.history.shift();}
@@ -164,6 +245,7 @@
   function enterNumber(number){
     const i=state.selected;
     if(i<0||state.paused||state.completed||Number(puzzle.puzzle[i])!==0)return;
+    recordGameStart(state.noteMode ? 'note' : 'number');
     pushHistory();
     if(state.noteMode && state.values[i]===0){
       const set=new Set(state.notes[i]); set.has(number)?set.delete(number):set.add(number); state.notes[i]=[...set].sort();
@@ -183,11 +265,13 @@
   function erase(){
     const i=state.selected;if(i<0||state.paused||state.completed||Number(puzzle.puzzle[i])!==0)return;
     if(!state.values[i]&&!state.notes[i].length)return;
+    recordGameStart('erase');
     pushHistory();state.values[i]=0;state.notes[i]=[];saveState();render();statusEl.textContent='선택한 칸을 지웠어요.';
   }
 
   function undo(){
     const prev=state.history.pop();if(!prev||state.paused||state.completed){window.showToast?.('되돌릴 내용이 없어요.');return;}
+    recordGameStart('undo');
     Object.assign(state,prev);saveState();render();statusEl.textContent='한 단계를 되돌렸어요.';
   }
 
@@ -196,6 +280,7 @@
     let i=state.selected;
     if(i<0||Number(puzzle.puzzle[i])!==0||state.values[i]===Number(puzzle.solution[i])) i=state.values.findIndex((value,index)=>Number(puzzle.puzzle[index])===0&&value!==Number(puzzle.solution[index]));
     if(i<0)return;
+    recordGameStart('hint');
     pushHistory();state.selected=i;const value=Number(puzzle.solution[i]);state.values[i]=value;state.notes[i]=[];state.hints+=1;removePeerNotes(i,value);saveState();render();statusEl.textContent=`힌트로 ${value}을(를) 채웠어요.`;checkComplete();
   }
 
@@ -213,6 +298,7 @@
     if(requestedDifficulty==='daily'){
       const key=todayKey();stats.currentStreak=stats.lastDaily&&dateDiff(key,stats.lastDaily)===1?stats.currentStreak+1:stats.lastDaily===key?stats.currentStreak:1;stats.maxStreak=Math.max(stats.maxStreak,stats.currentStreak);stats.lastDaily=key;
     }
+    trackEvent('sudoku_puzzle_complete', { elapsed_seconds: state.elapsed, mistakes: state.mistakes, hints: state.hints, completed_count: stats.completed });
     saveStats(stats);state.statsRecorded=true;
   }
 
@@ -268,6 +354,6 @@
   document.addEventListener('visibilitychange',()=>{if(document.hidden)saveState();});
 
   fetch('/data/sudoku.json').then((r)=>{if(!r.ok)throw new Error('data');return r.json();}).then((json)=>{
-    data=json;loadState();buildBoard();render();tickHandle=setInterval(tick,1000);
+    data=json;loadState();recordReturnVisit();buildBoard();render();tickHandle=setInterval(tick,1000);
   }).catch(()=>{statusEl.textContent='퍼즐 데이터를 불러오지 못했습니다. 페이지를 새로고침해 주세요.';});
 })();

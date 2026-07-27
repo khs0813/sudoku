@@ -2,9 +2,11 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AdFitSlot from '../components/AdFitSlot.astro';
 import SudokuGame from '../components/SudokuGame.astro';
+import { getSeoPage } from '../seo';
+const seo = getSeoPage('/medium/');
 ---
-<BaseLayout title="중급 스도쿠 무료 게임 | 스도쿠데이" description="기본 규칙에 익숙한 사용자를 위한 균형 잡힌 무료 중급 9×9 스도쿠입니다. 후보 메모와 행·열 비교를 연습할 수 있습니다.">
-  <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>중급 스도쿠</span></nav><h1>중급 스도쿠 무료 게임</h1><p>기본 규칙에 익숙한 사용자를 위한 균형 잡힌 무료 9×9 스도쿠입니다. 완료 후 새 퍼즐 버튼으로 계속 플레이할 수 있습니다.</p></div><AdFitSlot placement="game" /></div></section>
+<BaseLayout title={seo.title} description={seo.description}>
+  <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>중급 스도쿠</span></nav><h1>중급 스도쿠 무료 게임</h1><p>회원가입 없이 무료로 바로 풀 수 있는 중급 9×9 스도쿠입니다. 후보 메모를 정리하며 완료 후 새 퍼즐을 계속 시작할 수 있습니다.</p></div><AdFitSlot placement="game" /></div></section>
   <section class="game-wrap"><div class="shell"><SudokuGame difficulty="medium" /></div></section>
   <section class="section soft"><div class="shell prose content-card">
     <h2>숨은 단일 후보 찾기</h2>

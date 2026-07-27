@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteConfig } from '../config';
+import { getSeoPage } from '../seo';
+const seo = getSeoPage('/privacy/');
 ---
-<BaseLayout title={`개인정보 안내 | ${siteConfig.name}`} description={`${siteConfig.name}의 브라우저 저장, 분석 도구와 외부 전송 여부를 안내합니다.`}>
+<BaseLayout title={seo.title} description={seo.description}>
   <section class="page-head"><div class="shell prose">
     <nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>개인정보 안내</span></nav>
     <h1>개인정보 안내</h1>

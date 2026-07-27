@@ -1,5 +1,5 @@
 {
-  "name": "pocket-sudoku",
+  "name": "sudokuday",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -7,7 +7,11 @@
     "dev": "astro dev",
     "build": "astro build && node scripts/generate-sw.mjs",
     "preview": "astro preview",
-    "test:adfit": "node scripts/test-adfit-config.mjs"
+    "test:adfit": "node scripts/test-adfit-config.mjs",
+    "test:puzzles": "node scripts/validate-sudoku-data.mjs",
+    "test:dist": "node scripts/validate-seo-output.mjs",
+    "test:legacy": "node scripts/check-legacy-strings.mjs",
+    "test": "npm run test:adfit && npm run test:puzzles && npm run test:legacy"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",

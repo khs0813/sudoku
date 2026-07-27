@@ -18,7 +18,7 @@ await walk(rootPath);
 files.sort();
 const hash = createHash('sha256');
 for (const file of files) hash.update(await readFile(file));
-const cacheName = `pocket-sudoku-${hash.digest('hex').slice(0, 12)}`;
+const cacheName = `sudokuday-${hash.digest('hex').slice(0, 12)}`;
 const urls = files.map((file) => '/' + relative(rootPath, file).split(sep).join('/')).map((url) => url.endsWith('/index.html') ? url.slice(0, -10) : url);
 if (!urls.includes('/')) urls.push('/');
 const source = `const CACHE_NAME=${JSON.stringify(cacheName)};\nconst PRECACHE=${JSON.stringify([...new Set(urls)])};\nself.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(PRECACHE)).then(()=>self.skipWaiting()));});\nself.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));});\nself.addEventListener('fetch',event=>{if(event.request.method!=='GET'||new URL(event.request.url).origin!==self.location.origin)return;const isNav=event.request.mode==='navigate';if(isNav){event.respondWith(fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy));return response;}).catch(()=>caches.match(event.request).then(hit=>hit||caches.match('/'))));return;}event.respondWith(caches.match(event.request).then(hit=>hit||fetch(event.request).then(response=>{if(response.ok){const copy=response.clone();caches.open(CACHE_NAME).then(cache=>cache.put(event.request,copy));}return response;})));});`;

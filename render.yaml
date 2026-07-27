@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: pocket-sudoku
+    name: sudokuday
     runtime: static
     buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
