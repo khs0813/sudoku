@@ -1,0 +1,109 @@
+fromRoute,toUrl,anchorText
+/,/,9스도쿠데이매일 한 판 무료 스도쿠
+/,/,오늘 퍼즐
+/,/easy/,초급
+/,/medium/,중급
+/,/hard/,고급
+/,/guide/rules/,게임 방법
+/,/easy/,초급
+/,/medium/,중급
+/,/hard/,고급
+/,/easy/,🌱초급 스도쿠빈칸이 비교적 적어 규칙을 익히고 빠르게 완성하기 좋습니다.
+/,/medium/,🧩중급 스도쿠후보 숫자 메모와 행·열 비교가 필요한 균형 잡힌 난이도입니다.
+/,/hard/,🔥고급 스도쿠단서가 적어 여러 구역을 함께 살펴야 하는 도전적인 퍼즐입니다.
+/,/guide/rules/,규칙 자세히 보기
+/,/guide/strategy/,풀이 전략 읽기
+/,/about/,서비스 소개
+/,/privacy/,개인정보 안내
+/,/robots.txt,robots.txt
+/easy/,/,9스도쿠데이매일 한 판 무료 스도쿠
+/easy/,/,오늘 퍼즐
+/easy/,/easy/,초급
+/easy/,/medium/,중급
+/easy/,/hard/,고급
+/easy/,/guide/rules/,게임 방법
+/easy/,/,홈
+/easy/,/easy/,초급
+/easy/,/medium/,중급
+/easy/,/hard/,고급
+/easy/,/guide/rules/,스도쿠 규칙
+/easy/,/medium/,중급 스도쿠로 이동
+/easy/,/guide/strategy/,풀이 전략 보기
+/easy/,/about/,서비스 소개
+/easy/,/privacy/,개인정보 안내
+/easy/,/robots.txt,robots.txt
+/medium/,/,9스도쿠데이매일 한 판 무료 스도쿠
+/medium/,/,오늘 퍼즐
+/medium/,/easy/,초급
+/medium/,/medium/,중급
+/medium/,/hard/,고급
+/medium/,/guide/rules/,게임 방법
+/medium/,/,홈
+/medium/,/easy/,초급
+/medium/,/medium/,중급
+/medium/,/hard/,고급
+/medium/,/guide/strategy/,스도쿠 풀이 전략
+/medium/,/easy/,초급으로 연습
+/medium/,/hard/,고급 도전
+/medium/,/about/,서비스 소개
+/medium/,/privacy/,개인정보 안내
+/medium/,/robots.txt,robots.txt
+/hard/,/,9스도쿠데이매일 한 판 무료 스도쿠
+/hard/,/,오늘 퍼즐
+/hard/,/easy/,초급
+/hard/,/medium/,중급
+/hard/,/hard/,고급
+/hard/,/guide/rules/,게임 방법
+/hard/,/,홈
+/hard/,/easy/,초급
+/hard/,/medium/,중급
+/hard/,/hard/,고급
+/hard/,/guide/strategy/,풀이 전략
+/hard/,/medium/,중급 스도쿠
+/hard/,/medium/,중급으로 돌아가기
+/hard/,/guide/rules/,규칙 다시 보기
+/hard/,/about/,서비스 소개
+/hard/,/privacy/,개인정보 안내
+/hard/,/robots.txt,robots.txt
+/guide/rules/,/,9스도쿠데이매일 한 판 무료 스도쿠
+/guide/rules/,/,오늘 퍼즐
+/guide/rules/,/easy/,초급
+/guide/rules/,/medium/,중급
+/guide/rules/,/hard/,고급
+/guide/rules/,/guide/rules/,게임 방법
+/guide/rules/,/,홈
+/guide/rules/,/,오늘의 스도쿠 시작
+/guide/rules/,/about/,서비스 소개
+/guide/rules/,/privacy/,개인정보 안내
+/guide/rules/,/robots.txt,robots.txt
+/guide/strategy/,/,9스도쿠데이매일 한 판 무료 스도쿠
+/guide/strategy/,/,오늘 퍼즐
+/guide/strategy/,/easy/,초급
+/guide/strategy/,/medium/,중급
+/guide/strategy/,/hard/,고급
+/guide/strategy/,/guide/rules/,게임 방법
+/guide/strategy/,/,홈
+/guide/strategy/,/easy/,초급 퍼즐로 연습
+/guide/strategy/,/about/,서비스 소개
+/guide/strategy/,/privacy/,개인정보 안내
+/guide/strategy/,/robots.txt,robots.txt
+/about/,/,9스도쿠데이매일 한 판 무료 스도쿠
+/about/,/,오늘 퍼즐
+/about/,/easy/,초급
+/about/,/medium/,중급
+/about/,/hard/,고급
+/about/,/guide/rules/,게임 방법
+/about/,/,홈
+/about/,/about/,서비스 소개
+/about/,/privacy/,개인정보 안내
+/about/,/robots.txt,robots.txt
+/privacy/,/,9스도쿠데이매일 한 판 무료 스도쿠
+/privacy/,/,오늘 퍼즐
+/privacy/,/easy/,초급
+/privacy/,/medium/,중급
+/privacy/,/hard/,고급
+/privacy/,/guide/rules/,게임 방법
+/privacy/,/,홈
+/privacy/,/about/,서비스 소개
+/privacy/,/privacy/,개인정보 안내
+/privacy/,/robots.txt,robots.txt
