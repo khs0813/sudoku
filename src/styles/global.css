@@ -103,6 +103,8 @@ button:disabled, .button[aria-disabled="true"] { cursor: not-allowed; opacity: .
 .game-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: clamp(2rem, 6vw, 4rem); align-items: start; }
 .game-hero-copy h1 { max-width: none; margin-bottom: .7rem; font-size: clamp(2.1rem, 5vw, 3.65rem); }
 .game-hero-copy p { max-width: 70ch; margin: 0; color: var(--muted); font-size: 1.06rem; }
+.feature-badges { display: flex; flex-wrap: wrap; gap: .5rem; margin: .95rem 0 0; padding: 0; list-style: none; }
+.feature-badges li { min-height: 34px; display: inline-flex; align-items: center; padding: .36rem .68rem; border: 1px solid color-mix(in srgb, var(--brand) 18%, var(--line)); border-radius: 999px; background: #fff; color: #344b45; font-size: .84rem; font-weight: 850; line-height: 1.25; }
 .game-hero .adfit-slot--game { justify-self: end; align-self: start; }
 .game-wrap { padding: 3rem 0 4rem; }
 .game-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 330px); gap: 1rem; align-items: start; }
