@@ -1,44 +1,121 @@
 ---
-interface Props { difficulty?: 'daily' | 'easy' | 'medium' | 'hard'; }
-const { difficulty = 'daily' } = Astro.props;
-const pageLabel = difficulty === 'daily' ? '오늘의 퍼즐' : difficulty === 'easy' ? '초급 스도쿠' : difficulty === 'medium' ? '중급 스도쿠' : '고급 스도쿠';
+import { type Locale, getLocalizedPath } from '../config';
+
+interface Props {
+  difficulty?: 'daily' | 'easy' | 'medium' | 'hard';
+  locale?: Locale;
+}
+
+const { difficulty = 'daily', locale = 'ko' } = Astro.props;
+const copy = {
+  ko: {
+    pageLabels: { daily: '오늘의 퍼즐', easy: '초급 스도쿠', medium: '중급 스도쿠', hard: '고급 스도쿠' },
+    difficulty: '난이도',
+    mistakes: '실수',
+    stats: '내 기록',
+    boardAria: '9 곱하기 9 스도쿠 판',
+    pauseTitle: '일시정지',
+    pauseAction: '눌러서 계속하기',
+    numberPad: '숫자 입력판',
+    inputNumber: (n: number) => `${n} 입력`,
+    tools: { notes: '✎ 메모', erase: '⌫ 지우기', undo: '↶ 되돌리기', hint: '💡 힌트', pause: '일시정지' },
+    newPuzzle: '새 퍼즐',
+    initialStatus: '빈칸을 선택하고 숫자를 입력하세요.',
+    mobileStats: '기록',
+    shareAfterComplete: '완료 후 공유',
+    mySudoku: '나의 스도쿠',
+    completed: '완료',
+    streak: '연속',
+    maxStreak: '최장',
+    currentStreak: '현재 연속',
+    maxCurrentStreak: '최장 연속',
+    quickLinks: '빠른 이동',
+    noteNotice: '메모 모드에서는 후보 숫자를 여러 개 적을 수 있습니다.',
+    resultTitle: '퍼즐 완성!',
+    close: '닫기',
+    shareResult: '결과 공유',
+    nextPuzzle: '다음 퍼즐',
+    statsTitle: '나의 스도쿠 기록',
+    bestByDifficulty: '난이도별 최고 기록',
+    difficultyLinks: {
+      easy: '초급 스도쿠 무료 게임',
+      medium: '중급 스도쿠 무료 게임',
+      hard: '고급 스도쿠 무료 게임'
+    }
+  },
+  en: {
+    pageLabels: { daily: 'Daily Puzzle', easy: 'Easy Sudoku', medium: 'Medium Sudoku', hard: 'Hard Sudoku' },
+    difficulty: 'Difficulty',
+    mistakes: 'Mistakes',
+    stats: 'My Stats',
+    boardAria: '9 by 9 Sudoku board',
+    pauseTitle: 'Paused',
+    pauseAction: 'Tap to continue',
+    numberPad: 'Number pad',
+    inputNumber: (n: number) => `Enter ${n}`,
+    tools: { notes: '✎ Notes', erase: '⌫ Erase', undo: '↶ Undo', hint: '💡 Hint', pause: 'Pause' },
+    newPuzzle: 'New Puzzle',
+    initialStatus: 'Select an empty cell, then enter a number.',
+    mobileStats: 'Stats',
+    shareAfterComplete: 'Share After Solving',
+    mySudoku: 'My Sudoku',
+    completed: 'Solved',
+    streak: 'Streak',
+    maxStreak: 'Best',
+    currentStreak: 'Current Streak',
+    maxCurrentStreak: 'Best Streak',
+    quickLinks: 'Quick Links',
+    noteNotice: 'Use notes mode to add multiple candidate numbers to a cell.',
+    resultTitle: 'Puzzle Complete!',
+    close: 'Close',
+    shareResult: 'Share Result',
+    nextPuzzle: 'Next Puzzle',
+    statsTitle: 'My Sudoku Stats',
+    bestByDifficulty: 'Best Times by Difficulty',
+    difficultyLinks: {
+      easy: 'Easy Sudoku Online',
+      medium: 'Medium Sudoku Online',
+      hard: 'Hard Sudoku Online'
+    }
+  }
+}[locale];
 ---
-<div class="game-layout" data-sudoku data-difficulty={difficulty}>
+<div class="game-layout" data-sudoku data-difficulty={difficulty} data-locale={locale}>
   <div class="game-main game-card sudoku-card">
     <div class="game-topbar">
-      <div class="game-title"><h2>{pageLabel}</h2><p><span data-difficulty-label>난이도</span> · <span data-timer>00:00</span> · 실수 <span data-mistakes>0</span></p></div>
-      <button class="button small secondary" type="button" data-open-stats>내 기록</button>
+      <div class="game-title"><h2>{copy.pageLabels[difficulty]}</h2><p><span data-difficulty-label>{copy.difficulty}</span> · <span data-timer>00:00</span> · {copy.mistakes} <span data-mistakes>0</span></p></div>
+      <button class="button small secondary" type="button" data-open-stats>{copy.stats}</button>
     </div>
     <div class="sudoku-shell">
       <div style="position:relative">
-        <div class="sudoku-board" data-sudoku-board role="grid" aria-label="9 곱하기 9 스도쿠 판"></div>
-        <button class="pause-layer" data-pause-layer type="button" hidden><span><strong style="display:block;font-size:1.5rem">일시정지</strong>눌러서 계속하기</span></button>
+        <div class="sudoku-board" data-sudoku-board role="grid" aria-label={copy.boardAria}></div>
+        <button class="pause-layer" data-pause-layer type="button" hidden><span><strong style="display:block;font-size:1.5rem">{copy.pauseTitle}</strong>{copy.pauseAction}</span></button>
       </div>
-      <div class="number-pad" aria-label="숫자 입력판">
-        {[1,2,3,4,5,6,7,8,9].map((n)=><button class="number-key game-key" type="button" data-number={n} aria-label={`${n} 입력`}>{n}</button>)}
+      <div class="number-pad" aria-label={copy.numberPad}>
+        {[1,2,3,4,5,6,7,8,9].map((n)=><button class="number-key game-key" type="button" data-number={n} aria-label={copy.inputNumber(n)}>{n}</button>)}
       </div>
       <div class="sudoku-tools">
-        <button class="tool-key" type="button" data-tool="notes" aria-pressed="false">✎ 메모</button>
-        <button class="tool-key" type="button" data-tool="erase">⌫ 지우기</button>
-        <button class="tool-key" type="button" data-tool="undo">↶ 되돌리기</button>
-        <button class="tool-key" type="button" data-tool="hint">💡 힌트</button>
+        <button class="tool-key" type="button" data-tool="notes" aria-pressed="false">{copy.tools.notes}</button>
+        <button class="tool-key" type="button" data-tool="erase">{copy.tools.erase}</button>
+        <button class="tool-key" type="button" data-tool="undo">{copy.tools.undo}</button>
+        <button class="tool-key" type="button" data-tool="hint">{copy.tools.hint}</button>
       </div>
       <div class="button-row" style="justify-content:center;margin-top:.65rem">
-        <button class="button small secondary" type="button" data-tool="pause">일시정지</button>
-        {difficulty !== 'daily' && <button class="button small secondary" type="button" data-new-puzzle>새 퍼즐</button>}
+        <button class="button small secondary" type="button" data-tool="pause">{copy.tools.pause}</button>
+        {difficulty !== 'daily' && <button class="button small secondary" type="button" data-new-puzzle>{copy.newPuzzle}</button>}
       </div>
-      <p class="status" data-status role="status" aria-live="polite">빈칸을 선택하고 숫자를 입력하세요.</p>
+      <p class="status" data-status role="status" aria-live="polite">{copy.initialStatus}</p>
     </div>
     <div class="mobile-game-actions">
-      <button class="button secondary" type="button" data-open-stats>기록</button>
-      {difficulty === 'daily' ? <button class="button primary" type="button" data-share-result>완료 후 공유</button> : <button class="button primary" type="button" data-new-puzzle>새 퍼즐</button>}
+      <button class="button secondary" type="button" data-open-stats>{copy.mobileStats}</button>
+      {difficulty === 'daily' ? <button class="button primary" type="button" data-share-result>{copy.shareAfterComplete}</button> : <button class="button primary" type="button" data-new-puzzle>{copy.newPuzzle}</button>}
     </div>
   </div>
   <aside class="game-side">
-    <section class="card"><h3>나의 스도쿠</h3><div class="stat-row"><div class="stat-box"><strong data-stat="completed">0</strong><span>완료</span></div><div class="stat-box"><strong data-stat="streak">0</strong><span>연속</span></div><div class="stat-box"><strong data-stat="max-streak">0</strong><span>최장</span></div></div></section>
-    <section class="card"><h3>빠른 이동</h3><div class="chips"><a class="chip" href="/easy/">초급 스도쿠 무료 게임</a><a class="chip" href="/medium/">중급 스도쿠 무료 게임</a><a class="chip" href="/hard/">고급 스도쿠 무료 게임</a></div><p class="notice" style="margin-top:.8rem">메모 모드에서는 후보 숫자를 여러 개 적을 수 있습니다.</p></section>
+    <section class="card"><h3>{copy.mySudoku}</h3><div class="stat-row"><div class="stat-box"><strong data-stat="completed">0</strong><span>{copy.completed}</span></div><div class="stat-box"><strong data-stat="streak">0</strong><span>{copy.streak}</span></div><div class="stat-box"><strong data-stat="max-streak">0</strong><span>{copy.maxStreak}</span></div></div></section>
+    <section class="card"><h3>{copy.quickLinks}</h3><div class="chips"><a class="chip" href={getLocalizedPath('/easy/', locale)}>{copy.difficultyLinks.easy}</a><a class="chip" href={getLocalizedPath('/medium/', locale)}>{copy.difficultyLinks.medium}</a><a class="chip" href={getLocalizedPath('/hard/', locale)}>{copy.difficultyLinks.hard}</a></div><p class="notice" style="margin-top:.8rem">{copy.noteNotice}</p></section>
   </aside>
-  <dialog class="dialog" data-result-dialog><div class="dialog-inner"><div class="dialog-head"><div><h2>퍼즐 완성!</h2><p data-result-summary></p></div><button class="icon-button" type="button" aria-label="닫기" data-close-dialog>×</button></div><div class="button-row"><button class="button primary" type="button" data-share-result>결과 공유</button>{difficulty !== 'daily' && <button class="button secondary" type="button" data-new-puzzle>다음 퍼즐</button>}</div></div></dialog>
-  <dialog class="dialog" data-stats-dialog><div class="dialog-inner"><div class="dialog-head"><h2>나의 스도쿠 기록</h2><button class="icon-button" type="button" aria-label="닫기" data-close-dialog>×</button></div><div class="stat-row"><div class="stat-box"><strong data-stat="completed">0</strong><span>완료</span></div><div class="stat-box"><strong data-stat="streak">0</strong><span>현재 연속</span></div><div class="stat-box"><strong data-stat="max-streak">0</strong><span>최장 연속</span></div></div><h3 style="margin-top:1.3rem">난이도별 최고 기록</h3><div class="metric"><span>초급</span><strong data-best="easy">--:--</strong></div><div class="metric"><span>중급</span><strong data-best="medium">--:--</strong></div><div class="metric"><span>고급</span><strong data-best="hard">--:--</strong></div></div></dialog>
+  <dialog class="dialog" data-result-dialog><div class="dialog-inner"><div class="dialog-head"><div><h2>{copy.resultTitle}</h2><p data-result-summary></p></div><button class="icon-button" type="button" aria-label={copy.close} data-close-dialog>×</button></div><div class="button-row"><button class="button primary" type="button" data-share-result>{copy.shareResult}</button>{difficulty !== 'daily' && <button class="button secondary" type="button" data-new-puzzle>{copy.nextPuzzle}</button>}</div></div></dialog>
+  <dialog class="dialog" data-stats-dialog><div class="dialog-inner"><div class="dialog-head"><h2>{copy.statsTitle}</h2><button class="icon-button" type="button" aria-label={copy.close} data-close-dialog>×</button></div><div class="stat-row"><div class="stat-box"><strong data-stat="completed">0</strong><span>{copy.completed}</span></div><div class="stat-box"><strong data-stat="streak">0</strong><span>{copy.currentStreak}</span></div><div class="stat-box"><strong data-stat="max-streak">0</strong><span>{copy.maxCurrentStreak}</span></div></div><h3 style="margin-top:1.3rem">{copy.bestByDifficulty}</h3><div class="metric"><span>{copy.pageLabels.easy}</span><strong data-best="easy">--:--</strong></div><div class="metric"><span>{copy.pageLabels.medium}</span><strong data-best="medium">--:--</strong></div><div class="metric"><span>{copy.pageLabels.hard}</span><strong data-best="hard">--:--</strong></div></div></dialog>
 </div>
 <script src="/js/sudoku-game.js" defer></script>

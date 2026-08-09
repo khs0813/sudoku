@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdFitSlot from '../../components/AdFitSlot.astro';
+import SudokuGame from '../../components/SudokuGame.astro';
+import { getSeoPage } from '../../seo';
+const seo = getSeoPage('/en/medium/');
+---
+<BaseLayout title={seo.title} description={seo.description} locale="en">
+  <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><nav class="breadcrumb" aria-label="Current location"><a href="/en/">Home</a><span>›</span><span>Medium Sudoku</span></nav><h1>Medium Sudoku Online</h1><p>Play a free medium 9x9 Sudoku puzzle, no account required. Notes, hints, undo, and auto-save help you practice logical solving.</p><ul class="feature-badges" aria-label="Medium Sudoku feature summary"><li>No sign-up</li><li>Free to play</li><li>Notes and hints</li><li>Progress auto-save</li></ul></div><AdFitSlot placement="game" locale="en" /></div></section>
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="medium" locale="en" /></div></section>
+  <section class="section soft"><div class="shell prose content-card">
+    <h2>Find Hidden Singles</h2>
+    <p>In medium Sudoku, a cell may have several candidates while a specific digit has only one possible location in a row, column, or box. Scan one digit at a time to find these hidden singles.</p>
+    <h2>Learn Locked Candidates</h2>
+    <p>If all candidates for a digit inside one 3x3 box sit in the same row or column, that digit can be removed from the rest of that row or column.</p>
+    <h2>Understand Pointing Pairs</h2>
+    <p>When two candidates in a box line up in the same row or column, the matching digit can often be excluded elsewhere in that line.</p>
+    <h2>Clean Up Notes After Every Confirmed Digit</h2>
+    <p>After placing a digit, remove it from candidates in the same row, column, and box. Then check whether any new single candidates appeared.</p>
+    <h2>Do Not Stare at One Box Too Long</h2>
+    <p>If one area stops giving clues, switch to another digit or another region of the board. Medium puzzles often open up after a fresh scan.</p>
+    <h2>Medium Sudoku FAQ</h2>
+    <details><summary>Do I need notes for medium Sudoku?</summary><p>Usually, yes. Start with cells that are narrowed to two or three candidates so the board stays readable.</p></details>
+    <details><summary>What is the difference between a single candidate and a hidden single?</summary><p>A single candidate means one cell has only one possible digit. A hidden single means one digit has only one possible cell within a row, column, or box.</p></details>
+    <details><summary>Which guide should I read next?</summary><p>The <a href="/en/guide/strategy/">Sudoku strategy guide</a> explains single candidates, hidden singles, and note cleanup in order.</p></details>
+    <p><a class="button secondary" href="/en/easy/">Easy Sudoku Online</a> <a class="button primary" href="/en/hard/">Hard Sudoku Online</a></p>
+  </div></section>
+</BaseLayout>

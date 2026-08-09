@@ -1,18 +1,44 @@
 ---
-import { siteConfig } from '../config';
-const { currentPath = '/' } = Astro.props;
-const active = (href: string) => { const base = href.split('#')[0] || '/'; return base === '/' ? currentPath === '/' : currentPath.startsWith(base); };
+import { type Locale, getBasePathFromPathname, getLocalizedPath, getSiteConfig, normalizePathname } from '../config';
+
+interface Props {
+  currentPath?: string;
+  locale?: Locale;
+}
+
+const { currentPath = '/', locale = 'ko' } = Astro.props;
+const siteConfig = getSiteConfig(locale);
+const normalizedCurrentPath = normalizePathname(currentPath);
+const homePath = getLocalizedPath('/', locale);
+const currentBasePath = getBasePathFromPathname(currentPath) ?? '/';
+const targetLocale: Locale = locale === 'en' ? 'ko' : 'en';
+const targetConfig = getSiteConfig(targetLocale);
+const languageSwitchHref = getLocalizedPath(currentBasePath, targetLocale);
+const active = (href: string) => {
+  const base = normalizePathname(href.split('#')[0] || homePath);
+  return base === homePath ? normalizedCurrentPath === homePath : normalizedCurrentPath.startsWith(base);
+};
 ---
 <header class="site-header">
   <div class="shell header-inner">
-    <a class="brand" href="/" aria-label={`${siteConfig.name} 홈`}>
+    <a class="brand" href={homePath} aria-label={siteConfig.labels.homeAria}>
       <span class="brand-mark" aria-hidden="true">{siteConfig.mark}</span>
       <span><strong>{siteConfig.name}</strong><small>{siteConfig.tagline}</small></span>
     </a>
-    <nav class="site-nav" aria-label="주요 메뉴">
+    <nav class="site-nav" aria-label={siteConfig.labels.mainNav}>
       <ul class="nav-list">
         {siteConfig.nav.map(([label, href]) => <li><a class:list={['nav-link', { active: active(href) }]} aria-current={active(href) ? 'page' : undefined} href={href}>{label}</a></li>)}
       </ul>
     </nav>
+    <a
+      class="locale-switch"
+      href={languageSwitchHref}
+      hreflang={targetConfig.hreflang}
+      aria-label={siteConfig.labels.languageSwitchAria}
+      data-locale-switch
+      data-locale-target={targetLocale}
+    >
+      {siteConfig.labels.languageSwitch}
+    </a>
   </div>
 </header>

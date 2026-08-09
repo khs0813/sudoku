@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdFitSlot from '../../components/AdFitSlot.astro';
+import SudokuGame from '../../components/SudokuGame.astro';
+import { getSeoPage } from '../../seo';
+const seo = getSeoPage('/en/easy/');
+---
+<BaseLayout title={seo.title} description={seo.description} locale="en">
+  <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><nav class="breadcrumb" aria-label="Current location"><a href="/en/">Home</a><span>›</span><span>Easy Sudoku</span></nav><h1>Easy Sudoku Online</h1><p>Play a free beginner-friendly 9x9 Sudoku puzzle. Use notes, hints, undo, and auto-save, then start another puzzle when you finish.</p></div><AdFitSlot placement="game" locale="en" /></div></section>
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="easy" locale="en" /></div></section>
+  <section class="section soft"><div class="shell prose content-card">
+    <h2>Start With Rows and Columns That Have More Clues</h2>
+    <p>Easy Sudoku puzzles include more given numbers, so a row or column with only two or three empty cells can narrow the candidates quickly.</p>
+    <h2>Confirm Single Candidates First</h2>
+    <p>If a cell has only one possible digit after checking its row, column, and 3x3 box, fill it in before moving to harder patterns.</p>
+    <h2>Scan Each 3x3 Box Slowly</h2>
+    <p>When rows and columns stop giving clues, check whether a digit has only one possible position inside a 3x3 box.</p>
+    <h2>Use Notes Only Where They Help</h2>
+    <p>Filling every empty cell with notes can make an easy puzzle harder to read. Add notes to cells that are narrowed to two or three candidates.</p>
+    <h2>Common Beginner Mistakes</h2>
+    <p>Most wrong entries happen when only the row is checked. Before placing a digit, confirm the row, column, and box together. You can review the basics in the <a href="/en/guide/rules/">Sudoku rules</a>.</p>
+    <h2>Easy Sudoku FAQ</h2>
+    <details><summary>Where should I start an easy Sudoku puzzle?</summary><p>Start with the row, column, or 3x3 box that has the fewest empty cells. Single candidates are easier to spot there.</p></details>
+    <details><summary>Should I write many notes?</summary><p>For easy puzzles, use notes sparingly. Too many candidates can hide cells that are already solvable.</p></details>
+    <details><summary>Is it okay to use hints?</summary><p>Yes. After using a hint, check why that digit works by looking at the row, column, and box.</p></details>
+    <p><a class="button secondary" href="/en/medium/">Medium Sudoku Online</a> <a class="button ghost" href="/en/guide/strategy/">Solving Strategy</a></p>
+  </div></section>
+</BaseLayout>

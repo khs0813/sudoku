@@ -20,6 +20,65 @@
   ].join('-');
   const statsKey = `${storagePrefix}:stats:v2`;
   const legacyStatsKey = `${legacyStoragePrefix}:stats:v1`;
+  const locale = root.dataset.locale === 'en' ? 'en' : 'ko';
+  const copy = {
+    ko: {
+      difficulties: { easy:'초급', medium:'중급', hard:'고급' },
+      continueLabel: '계속',
+      pauseLabel: '일시정지',
+      practiceLabel: '연습',
+      rowColumnLabel: (row, col) => `${row}행 ${col}열`,
+      cellAria: (row, col, given, value, notes) => `${row}행 ${col}열${given?' 고정 숫자':''}${value?` 값 ${value}`:notes.length?` 메모 ${notes.join(',')}`:' 빈칸'}`,
+      noteStatus: (number, added) => `${number} 메모를 ${added?'추가':'삭제'}했어요.`,
+      wrongNumber: '이 칸에는 다른 숫자가 들어갑니다.',
+      correctNumber: '좋아요. 다음 빈칸을 선택하세요.',
+      erased: '선택한 칸을 지웠어요.',
+      noUndo: '되돌릴 내용이 없어요.',
+      undone: '한 단계를 되돌렸어요.',
+      hintFilled: (value) => `힌트로 ${value}을(를) 채웠어요.`,
+      paused: '게임을 잠시 멈췄어요.',
+      resumed: '게임을 계속합니다.',
+      notesOn: '메모 모드가 켜졌어요.',
+      notesOff: '숫자 입력 모드입니다.',
+      resultSummary: (difficultyLabel, time, mistakes, hints) => `${difficultyLabel} · ${time} · 실수 ${mistakes}회 · 힌트 ${hints}회`,
+      shareUnavailable: '완료 후 공유할 수 있어요.',
+      shareTitle: '스도쿠데이 결과',
+      shareText: ({ mode, difficultyLabel, time, mistakes, hints, url }) => `스도쿠데이 ${mode}\n${difficultyLabel} ${time} · 실수 ${mistakes} · 힌트 ${hints}\n🟩 완료\n${url}`,
+      copied: '결과를 복사했어요.',
+      shareFailed: '공유하지 못했어요.',
+      dailyOnly: '오늘의 퍼즐은 하루에 하나입니다.',
+      newPuzzle: '새 퍼즐을 시작합니다.',
+      dataError: '퍼즐 데이터를 불러오지 못했습니다. 페이지를 새로고침해 주세요.'
+    },
+    en: {
+      difficulties: { easy:'Easy', medium:'Medium', hard:'Hard' },
+      continueLabel: 'Continue',
+      pauseLabel: 'Pause',
+      practiceLabel: 'practice',
+      rowColumnLabel: (row, col) => `Row ${row}, column ${col}`,
+      cellAria: (row, col, given, value, notes) => `Row ${row}, column ${col}. ${given?'Fixed number. ':''}${value?`Value ${value}.`:notes.length?`Notes ${notes.join(', ')}.`:'Empty cell.'}`,
+      noteStatus: (number, added) => `${added ? 'Added' : 'Removed'} note ${number}.`,
+      wrongNumber: 'This cell needs a different number.',
+      correctNumber: 'Good. Select the next empty cell.',
+      erased: 'The selected cell was cleared.',
+      noUndo: 'Nothing to undo.',
+      undone: 'Undid one move.',
+      hintFilled: (value) => `Hint added ${value}.`,
+      paused: 'The game is paused.',
+      resumed: 'The game continues.',
+      notesOn: 'Notes mode is on.',
+      notesOff: 'Number entry mode is on.',
+      resultSummary: (difficultyLabel, time, mistakes, hints) => `${difficultyLabel} · ${time} · ${mistakes} mistakes · ${hints} hints`,
+      shareUnavailable: 'You can share after solving the puzzle.',
+      shareTitle: 'SudokuDay result',
+      shareText: ({ mode, difficultyLabel, time, mistakes, hints, url }) => `SudokuDay ${mode}\n${difficultyLabel} ${time} · ${mistakes} mistakes · ${hints} hints\nSolved\n${url}`,
+      copied: 'Result copied.',
+      shareFailed: 'Could not share the result.',
+      dailyOnly: 'There is one daily puzzle per day.',
+      newPuzzle: 'Starting a new puzzle.',
+      dataError: 'Could not load puzzle data. Refresh the page and try again.'
+    }
+  }[locale];
 
   let data = null;
   let difficulty = 'medium';
@@ -33,7 +92,7 @@
   const safeParse = (value, fallback) => { try { return value ? JSON.parse(value) : fallback; } catch { return fallback; } };
   const todayKey = () => new Intl.DateTimeFormat('en-CA', { timeZone:'Asia/Seoul', year:'numeric', month:'2-digit', day:'2-digit' }).format(new Date());
   const hashText = (text) => { let hash=2166136261; for (let i=0;i<text.length;i+=1){hash^=text.charCodeAt(i);hash=Math.imul(hash,16777619);} return hash>>>0; };
-  const labels = { easy:'초급', medium:'중급', hard:'고급' };
+  const labels = copy.difficulties;
   const stateKeyFor = (prefix) => requestedDifficulty === 'daily' ? `${prefix}:daily:${todayKey()}` : `${prefix}:${difficulty}:current`;
   const stateKey = () => stateKeyFor(storagePrefix);
   const legacyStateKey = () => stateKeyFor(legacyStoragePrefix);
@@ -163,7 +222,7 @@
       const button=document.createElement('button');
       button.type='button'; button.className='sudoku-cell'; button.dataset.index=String(i);
       button.setAttribute('role','gridcell');
-      button.setAttribute('aria-label',`${Math.floor(i/9)+1}행 ${i%9+1}열`);
+      button.setAttribute('aria-label',copy.rowColumnLabel(Math.floor(i/9)+1, i%9+1));
       const notes=document.createElement('span'); notes.className='notes'; notes.setAttribute('aria-hidden','true');
       for(let n=1;n<=9;n+=1){const span=document.createElement('span');span.dataset.note=String(n);notes.appendChild(span);}
       button.appendChild(notes);
@@ -197,7 +256,7 @@
       const oldText=[...cell.childNodes].find((node)=>node.nodeType===Node.TEXT_NODE);
       if(oldText)oldText.remove();
       if(value) cell.insertBefore(document.createTextNode(String(value)), notesEl);
-      cell.setAttribute('aria-label',`${Math.floor(index/9)+1}행 ${index%9+1}열${given?' 고정 숫자':''}${value?` 값 ${value}`:state.notes[index]?.length?` 메모 ${state.notes[index].join(',')}`:' 빈칸'}`);
+      cell.setAttribute('aria-label',copy.cellAria(Math.floor(index/9)+1, index%9+1, given, value, state.notes[index] || []));
       cell.disabled=state.paused;
     });
     root.querySelectorAll('[data-number]').forEach((button)=>{
@@ -218,7 +277,7 @@
     pauseLayer.hidden=!state.paused;
     root.querySelectorAll('[data-tool]').forEach((button)=>{ if(button.dataset.tool!=='pause') button.disabled=state.completed||state.paused; });
     const pauseButton=root.querySelector('[data-tool="pause"]');
-    if(pauseButton)pauseButton.textContent=state.paused?'계속':'일시정지';
+    if(pauseButton)pauseButton.textContent=state.paused?copy.continueLabel:copy.pauseLabel;
     root.querySelectorAll('[data-share-result]').forEach((button)=>{
       button.disabled=!state.completed;
       button.setAttribute('aria-disabled', String(!state.completed));
@@ -249,11 +308,11 @@
     pushHistory();
     if(state.noteMode && state.values[i]===0){
       const set=new Set(state.notes[i]); set.has(number)?set.delete(number):set.add(number); state.notes[i]=[...set].sort();
-      statusEl.textContent=`${number} 메모를 ${set.has(number)?'추가':'삭제'}했어요.`;
+      statusEl.textContent=copy.noteStatus(number, set.has(number));
     }else{
       state.notes[i]=[]; state.values[i]=number;
-      if(number!==Number(puzzle.solution[i])){state.mistakes+=1;statusEl.textContent='이 칸에는 다른 숫자가 들어갑니다.';navigator.vibrate?.(35);}
-      else{removePeerNotes(i,number);statusEl.textContent='좋아요. 다음 빈칸을 선택하세요.';autoSelectNext();}
+      if(number!==Number(puzzle.solution[i])){state.mistakes+=1;statusEl.textContent=copy.wrongNumber;navigator.vibrate?.(35);}
+      else{removePeerNotes(i,number);statusEl.textContent=copy.correctNumber;autoSelectNext();}
     }
     saveState();render();checkComplete();
   }
@@ -266,13 +325,13 @@
     const i=state.selected;if(i<0||state.paused||state.completed||Number(puzzle.puzzle[i])!==0)return;
     if(!state.values[i]&&!state.notes[i].length)return;
     recordGameStart('erase');
-    pushHistory();state.values[i]=0;state.notes[i]=[];saveState();render();statusEl.textContent='선택한 칸을 지웠어요.';
+    pushHistory();state.values[i]=0;state.notes[i]=[];saveState();render();statusEl.textContent=copy.erased;
   }
 
   function undo(){
-    const prev=state.history.pop();if(!prev||state.paused||state.completed){window.showToast?.('되돌릴 내용이 없어요.');return;}
+    const prev=state.history.pop();if(!prev||state.paused||state.completed){window.showToast?.(copy.noUndo);return;}
     recordGameStart('undo');
-    Object.assign(state,prev);saveState();render();statusEl.textContent='한 단계를 되돌렸어요.';
+    Object.assign(state,prev);saveState();render();statusEl.textContent=copy.undone;
   }
 
   function hint(){
@@ -281,11 +340,11 @@
     if(i<0||Number(puzzle.puzzle[i])!==0||state.values[i]===Number(puzzle.solution[i])) i=state.values.findIndex((value,index)=>Number(puzzle.puzzle[index])===0&&value!==Number(puzzle.solution[index]));
     if(i<0)return;
     recordGameStart('hint');
-    pushHistory();state.selected=i;const value=Number(puzzle.solution[i]);state.values[i]=value;state.notes[i]=[];state.hints+=1;removePeerNotes(i,value);saveState();render();statusEl.textContent=`힌트로 ${value}을(를) 채웠어요.`;checkComplete();
+    pushHistory();state.selected=i;const value=Number(puzzle.solution[i]);state.values[i]=value;state.notes[i]=[];state.hints+=1;removePeerNotes(i,value);saveState();render();statusEl.textContent=copy.hintFilled(value);checkComplete();
   }
 
-  function togglePause(){if(state.completed)return;state.paused=!state.paused;saveState();render();statusEl.textContent=state.paused?'게임을 잠시 멈췄어요.':'게임을 계속합니다.';}
-  function toggleNotes(){if(state.paused||state.completed)return;state.noteMode=!state.noteMode;saveState();renderMeta();statusEl.textContent=state.noteMode?'메모 모드가 켜졌어요.':'숫자 입력 모드입니다.';}
+  function togglePause(){if(state.completed)return;state.paused=!state.paused;saveState();render();statusEl.textContent=state.paused?copy.paused:copy.resumed;}
+  function toggleNotes(){if(state.paused||state.completed)return;state.noteMode=!state.noteMode;saveState();renderMeta();statusEl.textContent=state.noteMode?copy.notesOn:copy.notesOff;}
 
   function checkComplete(){
     if(state.values.every((value,index)=>value===Number(puzzle.solution[index]))){state.completed=true;state.paused=false;recordStats();saveState();renderMeta();setTimeout(()=>showResult(true),300);}
@@ -311,19 +370,26 @@
   }
 
   function showResult(open=true){
-    resultSummary.textContent=`${labels[difficulty]} · ${formatTime(state.elapsed)} · 실수 ${state.mistakes}회 · 힌트 ${state.hints}회`;
+    resultSummary.textContent=copy.resultSummary(labels[difficulty], formatTime(state.elapsed), state.mistakes, state.hints);
     if(open&&typeof resultDialog.showModal==='function')resultDialog.showModal();
   }
 
   async function shareResult(){
-    if(!state.completed){window.showToast?.('완료 후 공유할 수 있어요.');return;}
-    const text=`스도쿠데이 ${requestedDifficulty==='daily'?todayKey():'연습'}\n${labels[difficulty]} ${formatTime(state.elapsed)} · 실수 ${state.mistakes} · 힌트 ${state.hints}\n🟩 완료\n${location.origin}`;
-    try{if(navigator.share)await navigator.share({title:'스도쿠데이 결과',text});else{await navigator.clipboard.writeText(text);window.showToast?.('결과를 복사했어요.');}}catch(error){if(error?.name!=='AbortError')window.showToast?.('공유하지 못했어요.');}
+    if(!state.completed){window.showToast?.(copy.shareUnavailable);return;}
+    const text=copy.shareText({
+      mode: requestedDifficulty==='daily'?todayKey():copy.practiceLabel,
+      difficultyLabel: labels[difficulty],
+      time: formatTime(state.elapsed),
+      mistakes: state.mistakes,
+      hints: state.hints,
+      url: location.href.split('#')[0]
+    });
+    try{if(navigator.share)await navigator.share({title:copy.shareTitle,text});else{await navigator.clipboard.writeText(text);window.showToast?.(copy.copied);}}catch(error){if(error?.name!=='AbortError')window.showToast?.(copy.shareFailed);}
   }
 
   function newPuzzle(){
-    if(requestedDifficulty==='daily'){window.showToast?.('오늘의 퍼즐은 하루에 하나입니다.');return;}
-    const key=stateKey();localStorage.removeItem(key);loadState(true);buildBoard();render();resultDialog?.close();statusEl.textContent='새 퍼즐을 시작합니다.';
+    if(requestedDifficulty==='daily'){window.showToast?.(copy.dailyOnly);return;}
+    const key=stateKey();localStorage.removeItem(key);loadState(true);buildBoard();render();resultDialog?.close();statusEl.textContent=copy.newPuzzle;
   }
 
   function tick(){
@@ -355,5 +421,5 @@
 
   fetch('/data/sudoku.json').then((r)=>{if(!r.ok)throw new Error('data');return r.json();}).then((json)=>{
     data=json;loadState();recordReturnVisit();buildBoard();render();tickHandle=setInterval(tick,1000);
-  }).catch(()=>{statusEl.textContent='퍼즐 데이터를 불러오지 못했습니다. 페이지를 새로고침해 주세요.';});
+  }).catch(()=>{statusEl.textContent=copy.dataError;});
 })();

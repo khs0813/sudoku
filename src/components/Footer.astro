@@ -1,5 +1,12 @@
 ---
-import { siteConfig } from '../config';
+import { type Locale, getLocalizedPath, getSiteConfig } from '../config';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'ko' } = Astro.props;
+const siteConfig = getSiteConfig(locale);
 const year = new Date().getFullYear();
 ---
 <footer class="site-footer">
@@ -7,15 +14,15 @@ const year = new Date().getFullYear();
     <div class="footer-grid">
       <div>
         <strong>{siteConfig.name}</strong>
-        <p>{siteConfig.description} 회원가입과 서버 저장 없이 브라우저에서 바로 실행됩니다.</p>
+        <p>{siteConfig.description} {siteConfig.labels.footerExtra}</p>
       </div>
-      <nav class="footer-links" aria-label="하단 메뉴">
-        <a href="/about/">서비스 소개</a>
-        <a href="/privacy/">개인정보 안내</a>
+      <nav class="footer-links" aria-label={siteConfig.labels.footerNav}>
+        <a href={getLocalizedPath('/about/', locale)}>{siteConfig.labels.about}</a>
+        <a href={getLocalizedPath('/privacy/', locale)}>{siteConfig.labels.privacy}</a>
         <a href="/robots.txt">robots.txt</a>
-        <button class="button small secondary" type="button" data-install hidden>홈 화면에 추가</button>
+        <button class="button small secondary" type="button" data-install hidden>{siteConfig.labels.install}</button>
       </nav>
     </div>
-    <div class="footer-bottom">© {year} {siteConfig.name}. 무료 개인용 웹 게임.</div>
+    <div class="footer-bottom">© {year} {siteConfig.name}. {siteConfig.labels.footerBottom}</div>
   </div>
 </footer>

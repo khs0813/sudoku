@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AdFitSlot from '../../../components/AdFitSlot.astro';
+import { getSeoPage } from '../../../seo';
+const seo = getSeoPage('/en/guide/strategy/');
+---
+<BaseLayout title={seo.title} description={seo.description} locale="en">
+  <section class="page-head"><div class="shell prose"><nav class="breadcrumb" aria-label="Current location"><a href="/en/">Home</a><span>›</span><span>Solving Strategy</span></nav><h1>How to Solve Sudoku</h1><p>The best habit is to repeat proven steps instead of guessing.</p></div></section>
+  <section class="section compact guide-flow">
+    <div class="shell prose content-card"><h2>1. Start With the Most Filled Areas</h2><p>Rows, columns, and 3x3 boxes with fewer empty cells make candidates easier to narrow down.</p><h2>2. Find Single Candidates</h2><p>After removing digits already present in the same row, column, and box, fill any cell with only one remaining candidate.</p><h2>3. Look for Hidden Singles</h2><p>If a digit has only one possible position inside a row, column, or box, that digit is confirmed even when the cell has other candidates.</p></div>
+    <div class="shell"><AdFitSlot placement="guide" locale="en" /></div>
+    <div class="shell prose content-card"><h2>4. Clean Up Notes</h2><p>After placing a confirmed digit, remove that digit from notes in the same row, column, and box. SudokuDay automatically clears related notes after correct entries.</p><h2>5. Change Your View When Stuck</h2><p>Do not stay in one box too long. Pick one digit and scan the whole board for the next possible position.</p><a class="button primary" href="/en/easy/">Practice With an Easy Puzzle</a></div>
+  </section>
+</BaseLayout>

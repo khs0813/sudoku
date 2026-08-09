@@ -28,4 +28,14 @@
     installButtons.forEach((item) => item.hidden = true);
   }));
   window.addEventListener('appinstalled', () => installButtons.forEach((button) => button.hidden = true));
+
+  document.querySelectorAll('[data-locale-switch]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const locale = link.dataset.localeTarget;
+      if (!locale) return;
+      try {
+        localStorage.setItem('sudokuday:locale', locale);
+      } catch {}
+    });
+  });
 })();

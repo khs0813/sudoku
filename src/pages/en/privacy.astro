@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSeoPage } from '../../seo';
+const seo = getSeoPage('/en/privacy/');
+---
+<BaseLayout title={seo.title} description={seo.description} locale="en">
+  <section class="page-head"><div class="shell prose">
+    <nav class="breadcrumb" aria-label="Current location"><a href="/en/">Home</a><span>›</span><span>Privacy</span></nav>
+    <h1>Privacy</h1>
+    <p>The default setup does not require accounts, a server-side database, or login.</p>
+  </div></section>
+  <section class="section compact"><div class="shell prose content-card">
+    <h2>Browser Storage</h2>
+    <p>Game progress, streaks, personal best times, and settings are stored in the current browser's localStorage. If you clear browser data, these records are removed and are not transferred to other devices.</p>
+    <h2>Analytics</h2>
+    <p>The source includes an optional Google Analytics environment variable. If it is not set, the analytics script is not loaded. If analytics is enabled in production, the site operator should review notice and consent requirements.</p>
+    <h2>Advertising</h2>
+    <p>Kakao AdFit ads may be enabled in production. When ads are active, cookies, access logs, and ad identifiers may be processed for ad delivery, frequency management, performance measurement, and abuse prevention.</p>
+    <p>Sudoku progress, personal records, settings, and puzzle entries are stored in localStorage and are not directly passed as ad targeting values. You can limit or delete cookies in your browser settings.</p>
+    <h2>Sharing</h2>
+    <p>The share button uses your operating system's Web Share feature or the clipboard. The result text is shared only when you start the share action.</p>
+    <p><small>Last updated: August 9, 2026</small></p>
+  </div></section>
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSiteConfig } from '../../config';
+import { getSeoPage } from '../../seo';
+const seo = getSeoPage('/en/about/');
+const siteConfig = getSiteConfig('en');
+---
+<BaseLayout title={seo.title} description={seo.description} locale="en">
+  <section class="page-head"><div class="shell prose">
+    <nav class="breadcrumb" aria-label="Current location"><a href="/en/">Home</a><span>›</span><span>About</span></nav>
+    <h1>About {siteConfig.name}</h1>
+    <p>{siteConfig.description}</p>
+  </div></section>
+  <section class="section compact"><div class="shell prose content-card">
+    <h2>Open Fast and Start Playing</h2>
+    <p>You can start a puzzle without logging in or signing up. Core pages are served as static HTML, and only a small game script runs in the browser.</p>
+    <h2>Your Records Stay on Your Device</h2>
+    <p>Saved progress, daily streaks, personal best times, and settings are stored in this browser's localStorage. They are not sent to a server or synced across devices by default.</p>
+    <h2>A Reason to Come Back Each Day</h2>
+    <p>The daily challenge is date-based, so the same puzzle appears on the same day. Difficulty-based practice modes let you keep playing after the daily puzzle.</p>
+  </div></section>
+</BaseLayout>

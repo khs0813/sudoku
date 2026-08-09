@@ -1,67 +1,199 @@
-import { siteConfig } from './config';
+import {
+  type BasePath,
+  type Locale,
+  getLocalizedPath,
+  locales,
+  normalizePathname,
+  siteLocales
+} from './config';
 
-export const seoPages = [
+export interface SeoPage {
+  basePath: BasePath;
+  path: string;
+  locale: Locale;
+  title: string;
+  description: string;
+  rssDescription?: string;
+  updated: string;
+}
+
+const koPages: SeoPage[] = [
   {
+    basePath: '/',
     path: '/',
+    locale: 'ko',
     title: '무료 스도쿠 게임 - 오늘의 스도쿠 | 스도쿠데이',
     description: '회원가입 없이 바로 즐기는 무료 9×9 스도쿠 게임입니다. 오늘의 퍼즐과 초급·중급·고급 문제, 메모·힌트·되돌리기·자동 이어하기를 지원합니다.',
     rssDescription: '회원가입 없이 바로 즐기는 무료 9×9 스도쿠 게임입니다. 오늘의 난이도는 날짜에 따라 바뀌고 진행 상황은 현재 브라우저에 자동 저장됩니다. 오늘의 퍼즐을 마쳤다면 초급, 중급, 고급 무제한 모드에서 새 문제를 계속 풀 수 있습니다. 각 가로줄, 세로줄, 굵은 선으로 나뉜 3×3 구역에 1부터 9까지 숫자가 한 번씩 들어가야 합니다.',
     updated: '2026-07-29'
   },
   {
+    basePath: '/easy/',
     path: '/easy/',
+    locale: 'ko',
     title: '초급 스도쿠 무료 게임 | 스도쿠데이',
     description: '초보자도 부담 없이 시작할 수 있는 무료 초급 9×9 스도쿠입니다. 메모·힌트·되돌리기·자동 이어하기를 지원하며 새 퍼즐을 계속 풀 수 있습니다.',
     rssDescription: '초보자도 부담 없이 시작할 수 있는 무료 초급 9×9 스도쿠입니다. 숫자가 많이 채워진 행과 열, 단일 후보, 3×3 구역 스캔을 차례로 확인하면 처음 시작하는 사람도 안정적으로 풀 수 있습니다. 메모·힌트·되돌리기·자동 이어하기를 지원하며 새 퍼즐을 계속 풀 수 있습니다.',
     updated: '2026-07-29'
   },
   {
+    basePath: '/medium/',
     path: '/medium/',
+    locale: 'ko',
     title: '중급 스도쿠 무료 게임 | 스도쿠데이',
     description: '중급 스도쿠를 회원가입 없이 무료로 바로 풀어보세요. 후보 메모·힌트·되돌리기·자동 이어하기를 지원하며 완료 후 새 퍼즐을 계속 시작할 수 있습니다.',
     rssDescription: '중급 스도쿠를 회원가입 없이 무료로 바로 풀어보세요. 후보 메모·힌트·되돌리기·자동 이어하기를 지원하며 완료 후 새 퍼즐을 계속 시작할 수 있습니다. 숨은 단일 후보, 잠긴 후보, 포인팅 페어, 후보 메모 정리를 연습하기 좋습니다.',
     updated: '2026-07-29'
   },
   {
+    basePath: '/hard/',
     path: '/hard/',
+    locale: 'ko',
     title: '고급 스도쿠 무료 게임 | 스도쿠데이',
     description: '고급 스도쿠를 무료로 바로 풀어보세요. 후보 비교와 논리 풀이가 필요한 9×9 퍼즐로 메모·힌트·되돌리기·자동 이어하기를 지원합니다.',
     rssDescription: '고급 스도쿠를 무료로 바로 풀어보세요. 후보 비교와 논리 풀이가 필요한 9×9 퍼즐로 메모·힌트·되돌리기·자동 이어하기를 지원합니다. 네이키드 페어, 박스-라인 감소, 후보 체인 확인을 논리적으로 적용하는 연습에 적합합니다.',
     updated: '2026-07-29'
   },
   {
+    basePath: '/guide/rules/',
     path: '/guide/rules/',
+    locale: 'ko',
     title: '스도쿠 규칙과 게임 방법 | 스도쿠데이',
     description: '스도쿠의 가로줄·세로줄·3×3 구역 규칙과 메모·힌트 사용법, 퍼즐 완료 조건을 초보자도 이해하기 쉽게 설명합니다.',
     rssDescription: '스도쿠는 계산이 필요하지 않고 1부터 9까지 숫자가 겹치지 않도록 논리로 빈칸을 채우는 퍼즐입니다. 각 가로줄에는 1부터 9까지 숫자가 한 번씩 들어가고, 각 세로줄에도 1부터 9까지 숫자가 한 번씩 들어갑니다. 굵은 선으로 나뉜 각 3×3 구역에도 1부터 9까지 숫자가 한 번씩 들어갑니다. 메모는 후보 숫자를 남기고, 지우기는 선택한 칸의 숫자와 메모를 없애며, 되돌리기는 직전 입력 상태로 돌아갑니다. 81개 칸이 모두 올바르게 채워지면 자동으로 완료됩니다.',
     updated: '2026-07-28'
   },
   {
+    basePath: '/guide/strategy/',
     path: '/guide/strategy/',
+    locale: 'ko',
     title: '스도쿠 푸는 법과 초보 풀이 전략 | 스도쿠데이',
     description: '스도쿠를 잘 푸는 순서를 단일 후보, 숨은 단일 후보, 후보 메모와 잠긴 후보 예시를 통해 단계별로 설명합니다.',
     rssDescription: '스도쿠를 잘 푸는 순서를 단일 후보, 숨은 단일 후보, 후보 메모와 잠긴 후보 예시를 통해 단계별로 설명합니다. 빈칸이 적은 행, 열, 3×3 구역부터 보고, 같은 행과 열과 구역에 이미 있는 숫자를 제외했을 때 후보가 하나만 남는 칸을 먼저 채우세요. 확정 숫자가 들어가면 같은 행, 열, 구역의 후보에서 그 숫자를 지우고, 막히면 특정 숫자 하나를 정해 전체 판에서 들어갈 위치를 찾아보세요.',
     updated: '2026-07-28'
   },
   {
+    basePath: '/about/',
     path: '/about/',
-    title: `서비스 소개 | ${siteConfig.name}`,
-    description: `${siteConfig.name}의 무료 스도쿠 게임 구성, 브라우저 저장 방식, 오늘의 퍼즐과 난이도별 연습 모드 운영 원칙을 안내합니다.`,
-    rssDescription: `${siteConfig.name}는 로그인이나 회원가입 없이 바로 시작할 수 있는 무료 스도쿠 게임입니다. 핵심 화면은 정적 HTML로 제공하고 게임에 필요한 작은 JavaScript만 실행해 느린 모바일 환경에서도 빠르게 열리도록 설계했습니다. 이어하기, 연속 참여, 개인 최고점 같은 데이터는 브라우저의 localStorage에 저장됩니다. 날짜 기반 오늘의 도전과 개인 기록을 함께 제공하며, 같은 날짜에는 같은 문제가 열려 결과를 비교하기 쉽습니다.`,
+    locale: 'ko',
+    title: `서비스 소개 | ${siteLocales.ko.name}`,
+    description: `${siteLocales.ko.name}의 무료 스도쿠 게임 구성, 브라우저 저장 방식, 오늘의 퍼즐과 난이도별 연습 모드 운영 원칙을 안내합니다.`,
+    rssDescription: `${siteLocales.ko.name}는 로그인이나 회원가입 없이 바로 시작할 수 있는 무료 스도쿠 게임입니다. 핵심 화면은 정적 HTML로 제공하고 게임에 필요한 작은 JavaScript만 실행해 느린 모바일 환경에서도 빠르게 열리도록 설계했습니다. 이어하기, 연속 참여, 개인 최고점 같은 데이터는 브라우저의 localStorage에 저장됩니다. 날짜 기반 오늘의 도전과 개인 기록을 함께 제공하며, 같은 날짜에는 같은 문제가 열려 결과를 비교하기 쉽습니다.`,
     updated: '2026-07-28'
   },
   {
+    basePath: '/privacy/',
     path: '/privacy/',
-    title: `개인정보 안내 | ${siteConfig.name}`,
-    description: `${siteConfig.name}에서 사용하는 브라우저 저장 데이터, 선택형 분석 도구, 광고 서비스, 결과 공유 기능의 개인정보 처리 방식을 안내합니다.`,
+    locale: 'ko',
+    title: `개인정보 안내 | ${siteLocales.ko.name}`,
+    description: `${siteLocales.ko.name}에서 사용하는 브라우저 저장 데이터, 선택형 분석 도구, 광고 서비스, 결과 공유 기능의 개인정보 처리 방식을 안내합니다.`,
     updated: '2026-07-28'
   }
-] as const;
+];
 
-export const rssPages = seoPages.filter((page) => page.path !== '/privacy/');
+const enPages: SeoPage[] = [
+  {
+    basePath: '/',
+    path: '/en/',
+    locale: 'en',
+    title: 'Free Sudoku Online - Daily Sudoku Puzzle | SudokuDay',
+    description: 'Play free 9x9 Sudoku online with no sign-up. Start a daily puzzle or play unlimited easy, medium, and hard games with notes, hints, undo, and auto-save.',
+    rssDescription: 'Play free 9x9 Sudoku online with no sign-up. The daily puzzle changes by date, your progress is saved in this browser, and unlimited easy, medium, and hard practice puzzles are available after the daily challenge.',
+    updated: '2026-08-09'
+  },
+  {
+    basePath: '/easy/',
+    path: '/en/easy/',
+    locale: 'en',
+    title: 'Easy Sudoku Online - Free Beginner Puzzle | SudokuDay',
+    description: 'Play easy Sudoku online for free. Beginner-friendly 9x9 puzzles include notes, hints, undo, auto-save, and a new puzzle button after each solve.',
+    rssDescription: 'Play easy Sudoku online for free. These beginner-friendly 9x9 puzzles have more given numbers, so you can practice rows, columns, boxes, single candidates, notes, hints, undo, and auto-save.',
+    updated: '2026-08-09'
+  },
+  {
+    basePath: '/medium/',
+    path: '/en/medium/',
+    locale: 'en',
+    title: 'Medium Sudoku Online - Free 9x9 Puzzle | SudokuDay',
+    description: 'Play medium Sudoku online for free, no account required. Practice candidate notes, hidden singles, locked candidates, hints, undo, and browser auto-save.',
+    rssDescription: 'Play medium Sudoku online for free, no account required. Practice candidate notes, hidden singles, locked candidates, pointing pairs, hints, undo, and browser auto-save.',
+    updated: '2026-08-09'
+  },
+  {
+    basePath: '/hard/',
+    path: '/en/hard/',
+    locale: 'en',
+    title: 'Hard Sudoku Online - Free Advanced Puzzle | SudokuDay',
+    description: 'Play hard Sudoku online for free. Solve challenging 9x9 puzzles with candidate notes, hints, undo, auto-save, and logical solving practice.',
+    rssDescription: 'Play hard Sudoku online for free. These challenging 9x9 puzzles are useful for practicing naked pairs, box-line reduction, candidate chains, notes, hints, undo, and logical solving.',
+    updated: '2026-08-09'
+  },
+  {
+    basePath: '/guide/rules/',
+    path: '/en/guide/rules/',
+    locale: 'en',
+    title: 'Sudoku Rules - How to Play Sudoku | SudokuDay',
+    description: 'Learn the basic Sudoku rules for rows, columns, and 3x3 boxes, plus how notes, hints, undo, and puzzle completion work in the online game.',
+    rssDescription: 'Learn the basic Sudoku rules for rows, columns, and 3x3 boxes. Sudoku does not require math; fill the empty cells with digits 1 through 9 so every row, column, and box contains each digit once.',
+    updated: '2026-08-09'
+  },
+  {
+    basePath: '/guide/strategy/',
+    path: '/en/guide/strategy/',
+    locale: 'en',
+    title: 'How to Solve Sudoku - Beginner Strategy Guide | SudokuDay',
+    description: 'Learn how to solve Sudoku step by step with single candidates, hidden singles, candidate notes, locked candidates, and beginner-friendly examples.',
+    rssDescription: 'Learn how to solve Sudoku step by step with single candidates, hidden singles, candidate notes, locked candidates, and a clear solving order for beginners.',
+    updated: '2026-08-09'
+  },
+  {
+    basePath: '/about/',
+    path: '/en/about/',
+    locale: 'en',
+    title: `About | ${siteLocales.en.name}`,
+    description: `Learn how ${siteLocales.en.name} provides free online Sudoku puzzles, browser-based progress storage, daily challenges, and difficulty-based practice modes.`,
+    rssDescription: `${siteLocales.en.name} is a free online Sudoku game you can start without logging in or signing up. Core pages are static HTML, game progress is stored in localStorage, and daily plus difficulty-based practice modes are available.`,
+    updated: '2026-08-09'
+  },
+  {
+    basePath: '/privacy/',
+    path: '/en/privacy/',
+    locale: 'en',
+    title: `Privacy | ${siteLocales.en.name}`,
+    description: `Learn how ${siteLocales.en.name} handles browser storage, optional analytics, ads, and sharing for the free online Sudoku game.`,
+    updated: '2026-08-09'
+  }
+];
 
-export const getSeoPage = (path: (typeof seoPages)[number]['path']) => {
-  const page = seoPages.find((item) => item.path === path);
+export const seoPages = [...koPages, ...enPages];
+
+export const rssPages = seoPages.filter((page) => page.locale === 'ko' && page.path !== '/privacy/');
+
+export const getRssPages = (locale: Locale) =>
+  seoPages.filter((page) => page.locale === locale && page.basePath !== '/privacy/');
+
+export const findSeoPage = (path: string) => {
+  const normalized = normalizePathname(path);
+  return seoPages.find((item) => item.path === normalized);
+};
+
+export const getSeoPage = (path: string) => {
+  const page = findSeoPage(path);
   if (!page) throw new Error(`Unknown SEO page: ${path}`);
   return page;
+};
+
+export const getSeoAlternates = (path: string) => {
+  const page = findSeoPage(path);
+  if (!page) return [];
+  return locales.map((locale) => ({
+    locale,
+    hreflang: siteLocales[locale].hreflang,
+    path: getLocalizedPath(page.basePath, locale)
+  }));
+};
+
+export const getXDefaultPath = (path: string) => {
+  const page = findSeoPage(path);
+  return page ? getLocalizedPath(page.basePath, 'en') : '/en/';
 };

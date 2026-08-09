@@ -1,12 +1,14 @@
 ---
-import { adFitConfig } from '../config';
+import { type Locale, adFitConfig, getSiteConfig } from '../config';
 import { createPlacementClientConfig } from '../adfit-config.mjs';
 
 interface Props {
   placement: 'game' | 'guide';
+  locale?: Locale;
 }
 
-const { placement } = Astro.props;
+const { placement, locale = 'ko' } = Astro.props;
+const siteConfig = getSiteConfig(locale);
 const clientConfig = createPlacementClientConfig(adFitConfig, placement);
 const units = clientConfig.units;
 const hasDesktop = Boolean(units.desktop.id);
@@ -32,10 +34,10 @@ const styleVars = [
         { 'adfit-slot--has-desktop': hasDesktop, 'adfit-slot--has-mobile': hasMobile }
       ]}
       data-adfit-placement={placement}
-      aria-label="광고"
+      aria-label={siteConfig.labels.ad}
       style={styleVars}
     >
-      <span class="adfit-label">광고</span>
+      <span class="adfit-label">{siteConfig.labels.ad}</span>
     </div>
     <script is:inline type="application/json" id="adfit-config" set:html={configJson}></script>
     <script src="/js/adfit-loader.js" defer></script>

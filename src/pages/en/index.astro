@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdFitSlot from '../../components/AdFitSlot.astro';
+import SudokuGame from '../../components/SudokuGame.astro';
+import { getSeoPage } from '../../seo';
+const seo = getSeoPage('/en/');
+---
+<BaseLayout title={seo.title} description={seo.description} locale="en">
+  <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><span class="eyebrow">Daily 9x9 puzzle</span><h1>Free online Sudoku, one puzzle at a time</h1><p>Start a daily Sudoku without signing up. The daily difficulty changes by date, and your progress is saved in this browser.</p></div><AdFitSlot placement="game" locale="en" /></div></section>
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="daily" locale="en" /></div></section>
+  <section class="section soft"><div class="shell"><div class="section-head"><div><span class="eyebrow">Easy to hard</span><h2>Choose a Sudoku level that fits</h2></div><p>After the daily puzzle, keep playing unlimited practice puzzles by difficulty.</p></div><div class="grid-3"><a class="card card-link" href="/en/easy/"><span class="icon-badge">🌱</span><h3>Easy Sudoku Online</h3><p>Beginner-friendly puzzles with more given numbers, ideal for learning the rules and finishing quickly.</p></a><a class="card card-link" href="/en/medium/"><span class="icon-badge">🧩</span><h3>Medium Sudoku Online</h3><p>A balanced level for practicing notes, row and column checks, and hidden singles.</p></a><a class="card card-link" href="/en/hard/"><span class="icon-badge">🔥</span><h3>Hard Sudoku Online</h3><p>Challenging puzzles with fewer clues that reward careful candidate comparison.</p></a></div></div></section>
+  <section class="section"><div class="shell grid-2"><article class="content-card prose"><h2>Basic Sudoku Rules</h2><p>Each row, column, and outlined 3x3 box must contain the digits 1 through 9 exactly once.</p><a class="button secondary" href="/en/guide/rules/">Read the Rules</a></article><article class="content-card prose"><h2>The First Solving Habit</h2><p>Look for a row, column, or box where a number can go in only one cell. Use notes when a cell still has several candidates.</p><a class="button primary" href="/en/guide/strategy/">Learn Strategy</a></article></div></section>
+</BaseLayout>

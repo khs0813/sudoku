@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AdFitSlot from '../../components/AdFitSlot.astro';
+import SudokuGame from '../../components/SudokuGame.astro';
+import { getSeoPage } from '../../seo';
+const seo = getSeoPage('/en/hard/');
+---
+<BaseLayout title={seo.title} description={seo.description} locale="en">
+  <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><nav class="breadcrumb" aria-label="Current location"><a href="/en/">Home</a><span>›</span><span>Hard Sudoku</span></nav><h1>Hard Sudoku Online</h1><p>Play a free advanced 9x9 Sudoku puzzle. Compare candidates, use notes, and solve logically without guessing.</p></div><AdFitSlot placement="game" locale="en" /></div></section>
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="hard" locale="en" /></div></section>
+  <section class="section soft"><div class="shell prose content-card">
+    <h2>Naked Pairs Basics</h2>
+    <p>If two cells in the same row, column, or box contain the same two candidates and no others, those digits must belong to those two cells. Remove them from the rest of that unit.</p>
+    <h2>Box-Line Reduction</h2>
+    <p>When every candidate for a digit inside a box lies on one row or column, remove that candidate from the rest of the matching line.</p>
+    <h2>Check Fundamentals Before X-Wing</h2>
+    <p>Before looking for complex patterns, clean up single candidates, hidden singles, and pairs. A hard puzzle often becomes simpler after candidate cleanup.</p>
+    <h2>Follow Candidate Chains Carefully</h2>
+    <p>Think through what happens when one candidate is removed and which cells become singles. Remove only candidates that are ruled out by clear logic.</p>
+    <h2>Why Guessing Hurts</h2>
+    <p>A single guess can create several wrong entries. When stuck, rebuild your notes and revisit the basic steps in the <a href="/en/guide/strategy/">Sudoku strategy guide</a>.</p>
+    <h2>Hard Sudoku FAQ</h2>
+    <details><summary>Do I need to guess in hard Sudoku?</summary><p>No. The puzzles on this site are designed for logical solving, so candidate removal and pattern checks are safer than guessing.</p></details>
+    <details><summary>When should I look for naked pairs?</summary><p>Look for them after single candidates become harder to find and several cells have exactly two candidates.</p></details>
+    <details><summary>Where should I practice before hard puzzles?</summary><p>Use <a href="/en/medium/">medium Sudoku</a> to practice hidden singles and locked candidates before returning to hard puzzles.</p></details>
+    <p><a class="button secondary" href="/en/medium/">Medium Sudoku Online</a> <a class="button ghost" href="/en/guide/rules/">Review the Rules</a></p>
+  </div></section>
+</BaseLayout>

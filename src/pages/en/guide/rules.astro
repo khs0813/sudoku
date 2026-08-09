@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import AdFitSlot from '../../../components/AdFitSlot.astro';
+import { getSeoPage } from '../../../seo';
+const seo = getSeoPage('/en/guide/rules/');
+---
+<BaseLayout title={seo.title} description={seo.description} locale="en">
+  <section class="page-head"><div class="shell prose"><nav class="breadcrumb" aria-label="Current location"><a href="/en/">Home</a><span>›</span><span>Sudoku Rules</span></nav><h1>Sudoku Rules and How to Play</h1><p>No math is required. Fill the empty cells by logic so digits do not repeat.</p></div></section>
+  <section class="section compact guide-flow">
+    <div class="shell prose content-card"><h2>The Three Basic Rules</h2><ol><li>Each row must contain the digits 1 through 9 exactly once.</li><li>Each column must also contain the digits 1 through 9 exactly once.</li><li>Each outlined 3x3 box must contain the digits 1 through 9 exactly once.</li></ol><h2>Game Controls</h2><p><strong>Notes</strong> add small candidate digits to a cell. <strong>Erase</strong> clears the selected cell and its notes. <strong>Undo</strong> returns to the previous move. <strong>Hint</strong> fills the selected empty cell with the correct answer.</p></div>
+    <div class="shell"><AdFitSlot placement="guide" locale="en" /></div>
+    <div class="shell prose content-card"><h2>How a Puzzle Is Completed</h2><p>The puzzle is complete when all 81 cells are filled correctly. Your time, mistakes, and hint count are shown in the result.</p><a class="button primary" href="/en/">Start Today's Sudoku</a></div>
+  </section>
+</BaseLayout>

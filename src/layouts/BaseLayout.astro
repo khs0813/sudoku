@@ -1,7 +1,8 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { siteConfig } from '../config';
+import { type Locale, getSiteConfig, siteLocales } from '../config';
+import { getSeoAlternates, getXDefaultPath } from '../seo';
 import '../styles/global.css';
 
 interface Props {
@@ -12,12 +13,21 @@ interface Props {
   type?: string;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
+  locale?: Locale;
 }
 
-const { title, description, canonical, image = '/og-default.png', type = 'website', jsonLd, noindex = false } = Astro.props;
-const site = Astro.site ?? new URL(siteConfig.fallbackUrl);
+const { title, description, canonical, image = '/og-default.png', type = 'website', jsonLd, noindex = false, locale = 'ko' } = Astro.props;
+const localizedConfig = getSiteConfig(locale);
+const site = Astro.site ?? new URL(localizedConfig.fallbackUrl);
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site);
 const imageUrl = new URL(image, site);
+const alternateLinks = getSeoAlternates(canonical ?? Astro.url.pathname);
+const englishPath = alternateLinks.find((item) => item.locale === 'en')?.path ?? '';
+const koreanPath = alternateLinks.find((item) => item.locale === 'ko')?.path ?? '';
+const xDefaultPath = getXDefaultPath(canonical ?? Astro.url.pathname);
+const manifestHref = locale === 'en' ? '/en/manifest.webmanifest' : '/manifest.webmanifest';
+const rssHref = locale === 'en' ? '/en/rss.xml' : '/rss.xml';
+const alternateOgLocale = locale === 'en' ? siteLocales.ko.ogLocale : siteLocales.en.ogLocale;
 const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
 const naverVerification = import.meta.env.PUBLIC_NAVER_SITE_VERIFICATION || '49e2450b6593446c4a4559d2a524b6a6c05496ef';
 const gaId = import.meta.env.PUBLIC_GA_ID;
@@ -25,37 +35,37 @@ const baseJsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: siteConfig.name,
-    alternateName: siteConfig.shortName,
-    url: site.href,
-    description: siteConfig.description,
-    inLanguage: 'ko-KR'
+    name: localizedConfig.name,
+    alternateName: localizedConfig.shortName,
+    url: new URL(locale === 'en' ? '/en/' : '/', site).href,
+    description: localizedConfig.description,
+    inLanguage: localizedConfig.language
   },
   {
     '@context': 'https://schema.org',
     '@type': 'VideoGame',
-    name: siteConfig.name,
-    description: siteConfig.description,
-    url: site.href,
-    genre: siteConfig.genre,
+    name: localizedConfig.name,
+    description: localizedConfig.description,
+    url: canonicalUrl.href,
+    genre: localizedConfig.genre,
     playMode: 'SinglePlayer',
     gamePlatform: ['Web Browser', 'Mobile Web'],
-    inLanguage: 'ko-KR',
+    inLanguage: localizedConfig.language,
     isAccessibleForFree: true,
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'KRW' }
+    offers: { '@type': 'Offer', price: '0', priceCurrency: localizedConfig.priceCurrency }
   }
 ];
 const structured = [...baseJsonLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])];
 ---
 <!doctype html>
-<html lang="ko">
+<html lang={localizedConfig.htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content={siteConfig.themeColor} />
+    <meta name="theme-color" content={localizedConfig.themeColor} />
     <meta name="color-scheme" content="light" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content={siteConfig.shortName} />
+    <meta name="apple-mobile-web-app-title" content={localizedConfig.shortName} />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -63,11 +73,14 @@ const structured = [...baseJsonLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ?
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/icon-192.png" />
-    <link rel="manifest" href="/manifest.webmanifest" />
-    <link rel="alternate" type="application/rss+xml" title={`${siteConfig.name} RSS`} href={new URL('/rss.xml', site)} />
-    <meta property="og:locale" content="ko_KR" />
+    <link rel="manifest" href={manifestHref} />
+    {alternateLinks.map((item) => <link rel="alternate" hreflang={item.hreflang} href={new URL(item.path, site)} />)}
+    {alternateLinks.length > 0 && <link rel="alternate" hreflang="x-default" href={new URL(xDefaultPath, site)} />}
+    <link rel="alternate" type="application/rss+xml" title={`${localizedConfig.name} RSS`} href={new URL(rssHref, site)} />
+    <meta property="og:locale" content={localizedConfig.ogLocale} />
+    <meta property="og:locale:alternate" content={alternateOgLocale} />
     <meta property="og:type" content={type} />
-    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:site_name" content={localizedConfig.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -88,13 +101,38 @@ const structured = [...baseJsonLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ?
       gtag('js', new Date());
       gtag('config', gaId, { anonymize_ip: true });
     </script>}
+    <script is:inline define:vars={{ currentLocale: locale, englishPath, koreanPath }}>
+      (() => {
+        const storageKey = 'sudokuday:locale';
+        const userAgent = navigator.userAgent || '';
+        const isCrawler = /bot|crawl|spider|slurp|bingpreview|facebookexternalhit|twitterbot|linkedinbot|whatsapp|telegrambot/i.test(userAgent);
+        if (isCrawler) return;
+
+        let savedLocale = '';
+        try {
+          savedLocale = localStorage.getItem(storageKey) || '';
+        } catch {
+          savedLocale = '';
+        }
+
+        const languages = Array.isArray(navigator.languages) && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+        const prefersKorean = languages.some((language) => /^ko\b/i.test(language));
+        const wantsEnglish = savedLocale === 'en' || (!savedLocale && !prefersKorean);
+        const wantsKorean = savedLocale === 'ko';
+        const targetPath = currentLocale === 'ko' && wantsEnglish ? englishPath : currentLocale === 'en' && wantsKorean ? koreanPath : '';
+
+        if (targetPath && targetPath !== location.pathname) {
+          location.replace(`${targetPath}${location.search}${location.hash}`);
+        }
+      })();
+    </script>
     <slot name="head" />
   </head>
   <body>
-    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
-    <Header currentPath={Astro.url.pathname} />
+    <a class="skip-link" href="#main">{localizedConfig.labels.skipLink}</a>
+    <Header currentPath={Astro.url.pathname} locale={locale} />
     <main id="main"><slot /></main>
-    <Footer />
+    <Footer locale={locale} />
     <div class="toast" data-toast role="status" aria-live="polite"></div>
     <script src="/app-shell.js" defer></script>
   </body>
