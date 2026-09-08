@@ -93,6 +93,7 @@ const structured = [...baseJsonLd, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ?
     <meta name="twitter:image" content={imageUrl} />
     {googleVerification && <meta name="google-site-verification" content={googleVerification} />}
     {naverVerification && <meta name="naver-site-verification" content={naverVerification} />}
+    <meta name="google-adsense-account" content="ca-pub-7766989656523085" />
     {structured.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
     {gaId && <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>}
     {gaId && <script is:inline define:vars={{ gaId }}>
