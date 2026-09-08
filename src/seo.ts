@@ -88,6 +88,15 @@ const koPages: SeoPage[] = [
     title: `개인정보 안내 | ${siteLocales.ko.name}`,
     description: `${siteLocales.ko.name}에서 사용하는 브라우저 저장 데이터, 선택형 분석 도구, 광고 서비스, 결과 공유 기능의 개인정보 처리 방식을 안내합니다.`,
     updated: '2026-07-28'
+  },
+  {
+    basePath: '/contact/',
+    path: '/contact/',
+    locale: 'ko',
+    title: `광고문의 | ${siteLocales.ko.name}`,
+    description: `${siteLocales.ko.name} 광고 문의, 배너 집행 및 제휴 관련 연락처 정보를 안내합니다.`,
+    rssDescription: `${siteLocales.ko.name} 광고 문의 및 제휴 관련 메일 정보를 안내합니다. 배너 광고, 제휴 제안 및 기타 문의는 메일 주소로 보내주시기 바랍니다.`,
+    updated: '2026-09-08'
   }
 ];
 
@@ -162,6 +171,15 @@ const enPages: SeoPage[] = [
     title: `Privacy | ${siteLocales.en.name}`,
     description: `Learn how ${siteLocales.en.name} handles browser storage, optional analytics, ads, and sharing for the free online Sudoku game.`,
     updated: '2026-08-09'
+  },
+  {
+    basePath: '/contact/',
+    path: '/en/contact/',
+    locale: 'en',
+    title: `Advertising | ${siteLocales.en.name}`,
+    description: `Advertising inquiries and contact information for ${siteLocales.en.name}.`,
+    rssDescription: `Advertising inquiries and contact information for ${siteLocales.en.name}. Contact us via email for banner ads and business inquiries.`,
+    updated: '2026-09-08'
   }
 ];
 

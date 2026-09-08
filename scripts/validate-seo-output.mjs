@@ -50,6 +50,12 @@ const koPages = [
     file: 'privacy/index.html',
     title: '개인정보 안내 | 스도쿠데이',
     description: '스도쿠데이에서 사용하는 브라우저 저장 데이터, 선택형 분석 도구, 광고 서비스, 결과 공유 기능의 개인정보 처리 방식을 안내합니다.'
+  },
+  {
+    path: '/contact/',
+    file: 'contact/index.html',
+    title: '광고문의 | 스도쿠데이',
+    description: '스도쿠데이 광고 문의, 배너 집행 및 제휴 관련 연락처 정보를 안내합니다.'
   }
 ].map((page) => ({ ...page, locale: 'ko', htmlLang: 'ko', ogLocale: 'ko_KR', manifest: '/manifest.webmanifest', rss: `${site}/rss.xml` }));
 
@@ -101,6 +107,12 @@ const enPages = [
     file: 'en/privacy/index.html',
     title: 'Privacy | SudokuDay',
     description: 'Learn how SudokuDay handles browser storage, optional analytics, ads, and sharing for the free online Sudoku game.'
+  },
+  {
+    path: '/en/contact/',
+    file: 'en/contact/index.html',
+    title: 'Advertising | SudokuDay',
+    description: 'Advertising inquiries and contact information for SudokuDay.'
   }
 ].map((page) => ({ ...page, locale: 'en', htmlLang: 'en', ogLocale: 'en_US', manifest: '/en/manifest.webmanifest', rss: `${site}/en/rss.xml` }));
 

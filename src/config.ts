@@ -12,7 +12,8 @@ export const basePaths = [
   '/guide/rules/',
   '/guide/strategy/',
   '/about/',
-  '/privacy/'
+  '/privacy/',
+  '/contact/'
 ] as const;
 
 export type BasePath = (typeof basePaths)[number];
@@ -26,7 +27,8 @@ export const localizedPaths: Record<Locale, Record<BasePath, string>> = {
     '/guide/rules/': '/guide/rules/',
     '/guide/strategy/': '/guide/strategy/',
     '/about/': '/about/',
-    '/privacy/': '/privacy/'
+    '/privacy/': '/privacy/',
+    '/contact/': '/contact/'
   },
   en: {
     '/': '/en/',
@@ -36,7 +38,8 @@ export const localizedPaths: Record<Locale, Record<BasePath, string>> = {
     '/guide/rules/': '/en/guide/rules/',
     '/guide/strategy/': '/en/guide/strategy/',
     '/about/': '/en/about/',
-    '/privacy/': '/en/privacy/'
+    '/privacy/': '/en/privacy/',
+    '/contact/': '/en/contact/'
   }
 };
 
@@ -69,7 +72,8 @@ export const siteLocales = {
     hreflang: 'ko-KR',
     ogLocale: 'ko_KR',
     priceCurrency: 'KRW',
-    nav: [['오늘 퍼즐', '/'], ['초급', '/easy/'], ['중급', '/medium/'], ['고급', '/hard/'], ['게임 방법', '/guide/rules/']],
+    contactEmail: 'webinquiry365@gmail.com',
+    nav: [['오늘 퍼즐', '/'], ['초급', '/easy/'], ['중급', '/medium/'], ['고급', '/hard/'], ['게임 방법', '/guide/rules/'], ['광고문의', '/contact/']],
     labels: {
       homeAria: '스도쿠데이 홈',
       mainNav: '주요 메뉴',
@@ -78,6 +82,7 @@ export const siteLocales = {
       footerExtra: '회원가입과 서버 저장 없이 브라우저에서 바로 실행됩니다.',
       about: '서비스 소개',
       privacy: '개인정보 안내',
+      contact: '광고문의',
       install: '홈 화면에 추가',
       footerBottom: '무료 개인용 웹 게임.',
       languageSwitch: 'English',
@@ -99,7 +104,8 @@ export const siteLocales = {
     hreflang: 'en',
     ogLocale: 'en_US',
     priceCurrency: 'USD',
-    nav: [['Daily Puzzle', '/en/'], ['Easy', '/en/easy/'], ['Medium', '/en/medium/'], ['Hard', '/en/hard/'], ['How to Play', '/en/guide/rules/']],
+    contactEmail: 'webinquiry365@gmail.com',
+    nav: [['Daily Puzzle', '/en/'], ['Easy', '/en/easy/'], ['Medium', '/en/medium/'], ['Hard', '/en/hard/'], ['How to Play', '/en/guide/rules/'], ['Advertising', '/en/contact/']],
     labels: {
       homeAria: 'SudokuDay home',
       mainNav: 'Primary navigation',
@@ -108,6 +114,7 @@ export const siteLocales = {
       footerExtra: 'Runs in your browser without sign-up or server-side saves.',
       about: 'About',
       privacy: 'Privacy',
+      contact: 'Advertising',
       install: 'Add to home screen',
       footerBottom: 'Free web Sudoku game for personal play.',
       languageSwitch: 'Korean',

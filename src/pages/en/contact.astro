@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getSiteConfig } from '../../config';
+import { getSeoPage } from '../../seo';
+
+const siteConfig = getSiteConfig('en');
+const seo = getSeoPage('/en/contact/');
+---
+<BaseLayout title={seo.title} description={seo.description} locale="en">
+  <section class="page-head">
+    <div class="shell prose">
+      <nav class="breadcrumb" aria-label="Current position"><a href="/en/">Home</a><span>›</span><span>Advertising</span></nav>
+      <h1>Advertising & Contact</h1>
+      <p>Information regarding banner advertising, partnerships, and general inquiries for {siteConfig.name}.</p>
+    </div>
+  </section>
+
+  <section class="section compact">
+    <div class="shell prose content-card">
+      <h2>Banner Advertising & Inquiries</h2>
+      <p>For ad placements, business proposals, or general inquiries regarding SudokuDay, please reach out to us via email.</p>
+      
+      <div class="contact-box">
+        <div class="contact-email">
+          <span class="email-label">Email:</span>
+          <a href={`mailto:${siteConfig.contactEmail}`} class="email-link" id="contact-email">{siteConfig.contactEmail}</a>
+        </div>
+        <div class="contact-actions">
+          <a href={`mailto:${siteConfig.contactEmail}`} class="button primary small">Send Email</a>
+          <button type="button" class="button secondary small" id="copy-email-btn" data-email={siteConfig.contactEmail}>Copy Email</button>
+        </div>
+      </div>
+
+      <h2>Guidelines for Inquiries</h2>
+      <ul>
+        <li>Including preferred ad placements (top banner, bottom banner) and requested campaign durations will help us respond faster.</li>
+        <li>We aim to respond within 1 to 2 business days.</li>
+      </ul>
+    </div>
+  </section>
+
+  <script>
+    const copyBtn = document.getElementById('copy-email-btn');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async () => {
+        const email = copyBtn.getAttribute('data-email');
+        if (!email) return;
+        try {
+          await navigator.clipboard.writeText(email);
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+          }, 2000);
+        } catch {
+          alert(`Email address: ${email}`);
+        }
+      });
+    }
+  </script>
+</BaseLayout>
