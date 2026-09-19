@@ -7,8 +7,8 @@ const seo = getSeoPage('/en/medium/');
 ---
 <BaseLayout title={seo.title} description={seo.description} locale="en">
   <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><nav class="breadcrumb" aria-label="Current location"><a href="/en/">Home</a><span>›</span><span>Medium Sudoku</span></nav><h1>Medium Sudoku Online</h1><p>Play a free medium 9x9 Sudoku puzzle, no account required. Notes, hints, undo, and auto-save help you practice logical solving.</p><ul class="feature-badges" aria-label="Medium Sudoku feature summary"><li>No sign-up</li><li>Free to play</li><li>Notes and hints</li><li>Progress auto-save</li></ul></div></div></section>
-  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="medium" locale="en" /></div></section>
   <CoupangBanner locale="en" />
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="medium" locale="en" /></div></section>
   <section class="section soft"><div class="shell prose content-card">
     <h2>Find Hidden Singles</h2>
     <p>In medium Sudoku, a cell may have several candidates while a specific digit has only one possible location in a row, column, or box. Scan one digit at a time to find these hidden singles.</p>

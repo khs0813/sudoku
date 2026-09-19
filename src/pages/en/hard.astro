@@ -7,8 +7,8 @@ const seo = getSeoPage('/en/hard/');
 ---
 <BaseLayout title={seo.title} description={seo.description} locale="en">
   <section class="game-hero"><div class="shell game-hero-grid"><div class="game-hero-copy"><nav class="breadcrumb" aria-label="Current location"><a href="/en/">Home</a><span>›</span><span>Hard Sudoku</span></nav><h1>Hard Sudoku Online</h1><p>Play a free advanced 9x9 Sudoku puzzle. Compare candidates, use notes, and solve logically without guessing.</p></div></div></section>
-  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="hard" locale="en" /></div></section>
   <CoupangBanner locale="en" />
+  <section class="game-wrap"><div class="shell"><SudokuGame difficulty="hard" locale="en" /></div></section>
   <section class="section soft"><div class="shell prose content-card">
     <h2>Naked Pairs Basics</h2>
     <p>If two cells in the same row, column, or box contain the same two candidates and no others, those digits must belong to those two cells. Remove them from the rest of that unit.</p>

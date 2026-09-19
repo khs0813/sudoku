@@ -141,6 +141,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--brand); outline:
 .coupang-banner-section { padding-block: 1rem 1.5rem; }
 .guide-flow .coupang-banner-section { padding-block: 0; }
 .guide-flow .coupang-banner-section .shell { width: 100%; padding-inline: 0; }
+.game-hero + .coupang-banner-section { padding-block: 1.25rem .5rem; }
+.game-hero + .coupang-banner-section + .game-wrap { padding-top: 1rem; }
+.page-head + .coupang-banner-section { padding-block: .5rem 1.5rem; }
 .coupang-banner-card { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.15rem 1rem .85rem; background: rgba(255, 255, 255, .96); border: 1px solid color-mix(in srgb, var(--line) 85%, transparent); border-radius: var(--radius); box-shadow: var(--shadow-sm); text-align: center; max-width: 720px; margin-inline: auto; overflow: hidden; }
 .coupang-banner-widget { width: 100%; max-width: 680px; min-height: 140px; display: flex; justify-content: center; align-items: center; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .coupang-banner-widget iframe { max-width: 100% !important; border: 0; }
@@ -186,6 +189,9 @@ summary { cursor: pointer; font-weight: 900; }
   .footer-links a { min-height: 44px; display: inline-flex; align-items: center; }
   .mobile-game-actions { display: flex; gap: .55rem; margin: 1rem 0 0; padding: .72rem 0 0; border-top: 1px solid var(--line); background: #fff; }
   .mobile-game-actions > * { flex: 1 1 0; min-width: 0; padding-inline: .48rem; white-space: nowrap; }
+  .game-hero + .coupang-banner-section { padding-block: .75rem .25rem; }
+  .game-hero + .coupang-banner-section + .game-wrap { padding-top: .25rem; }
+  .page-head + .coupang-banner-section { padding-block: .25rem 1rem; }
   .coupang-banner-card { padding: .85rem .5rem .65rem; border-radius: 16px; }
   .coupang-banner-widget { min-height: 120px; }
 }
