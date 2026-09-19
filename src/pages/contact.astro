@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CoupangBanner from '../components/CoupangBanner.astro';
 import { siteConfig } from '../config';
 import { getSeoPage } from '../seo';
 
@@ -37,6 +38,8 @@ const seo = getSeoPage('/contact/');
       </ul>
     </div>
   </section>
+
+  <CoupangBanner />
 
   <script>
     const copyBtn = document.getElementById('copy-email-btn');

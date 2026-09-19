@@ -1,0 +1,24 @@
+---
+interface Props {
+  locale?: 'ko' | 'en';
+  className?: string;
+}
+
+const { locale = 'ko', className = '' } = Astro.props;
+const disclaimer = locale === 'ko'
+  ? '이 포스팅은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.'
+  : 'This post is part of Coupang Partners activities, and a commission may be provided accordingly.';
+---
+<aside class:list={['coupang-banner-section', className]} aria-label={locale === 'ko' ? '추천 상품' : 'Recommended Products'}>
+  <div class="shell">
+    <div class="coupang-banner-card">
+      <div class="coupang-banner-widget">
+        <script is:inline src="https://ads-partners.coupang.com/g.js"></script>
+        <script is:inline>
+          new PartnersCoupang.G({"id":999028,"template":"carousel","trackingCode":"AF4791224","width":"680","height":"140","tsource":""});
+        </script>
+      </div>
+      <p class="coupang-disclaimer">{disclaimer}</p>
+    </div>
+  </div>
+</aside>

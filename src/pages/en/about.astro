@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CoupangBanner from '../../components/CoupangBanner.astro';
 import { getSiteConfig } from '../../config';
 import { getSeoPage } from '../../seo';
 const seo = getSeoPage('/en/about/');
@@ -19,4 +20,5 @@ const siteConfig = getSiteConfig('en');
     <h2>A Reason to Come Back Each Day</h2>
     <p>The daily challenge is date-based, so the same puzzle appears on the same day. Difficulty-based practice modes let you keep playing after the daily puzzle.</p>
   </div></section>
+  <CoupangBanner locale="en" />
 </BaseLayout>

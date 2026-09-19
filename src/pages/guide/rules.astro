@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import AdFitSlot from '../../components/AdFitSlot.astro';
+import CoupangBanner from '../../components/CoupangBanner.astro';
 import { getSeoPage } from '../../seo';
 const seo = getSeoPage('/guide/rules/');
 ---
@@ -8,7 +8,7 @@ const seo = getSeoPage('/guide/rules/');
   <section class="page-head"><div class="shell prose"><nav class="breadcrumb" aria-label="현재 위치"><a href="/">홈</a><span>›</span><span>스도쿠 규칙</span></nav><h1>스도쿠 규칙과 게임 방법</h1><p>계산은 필요하지 않습니다. 1부터 9까지 숫자가 겹치지 않도록 논리로 빈칸을 채우는 퍼즐입니다.</p></div></section>
   <section class="section compact guide-flow">
     <div class="shell prose content-card"><h2>세 가지 기본 규칙</h2><ol><li>각 가로줄에는 1부터 9까지 숫자가 한 번씩 들어갑니다.</li><li>각 세로줄에도 1부터 9까지 숫자가 한 번씩 들어갑니다.</li><li>굵은 선으로 나뉜 각 3×3 구역에도 1부터 9까지 숫자가 한 번씩 들어갑니다.</li></ol><h2>화면 기능</h2><p><strong>메모</strong>는 후보 숫자를 작은 글씨로 남깁니다. <strong>지우기</strong>는 선택한 칸의 숫자와 메모를 없애며, <strong>되돌리기</strong>는 직전 입력 상태로 돌아갑니다. <strong>힌트</strong>는 선택한 빈칸 하나를 정답으로 채웁니다.</p></div>
-    <div class="shell"><AdFitSlot placement="guide" /></div>
+    <CoupangBanner />
     <div class="shell prose content-card"><h2>완료 조건</h2><p>81개 칸이 모두 올바르게 채워지면 자동으로 완료됩니다. 시간, 실수 횟수와 힌트 사용 횟수가 결과에 표시됩니다.</p><a class="button primary" href="/">오늘의 스도쿠 시작</a></div>
   </section>
 </BaseLayout>

@@ -1,5 +1,3 @@
-import { createAdFitConfig } from './adfit-config.mjs';
-
 export type Locale = 'ko' | 'en';
 
 export const locales = ['ko', 'en'] as const;
@@ -127,5 +125,3 @@ export const siteLocales = {
 export const siteConfig = siteLocales.ko;
 
 export const getSiteConfig = (locale: Locale = 'ko') => siteLocales[locale];
-
-export const adFitConfig = createAdFitConfig(process.env);

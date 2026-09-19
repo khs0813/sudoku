@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CoupangBanner from '../../components/CoupangBanner.astro';
 import { getSeoPage } from '../../seo';
 const seo = getSeoPage('/en/privacy/');
 ---
@@ -14,11 +15,12 @@ const seo = getSeoPage('/en/privacy/');
     <p>Game progress, streaks, personal best times, and settings are stored in the current browser's localStorage. If you clear browser data, these records are removed and are not transferred to other devices.</p>
     <h2>Analytics</h2>
     <p>The source includes an optional Google Analytics environment variable. If it is not set, the analytics script is not loaded. If analytics is enabled in production, the site operator should review notice and consent requirements.</p>
-    <h2>Advertising</h2>
-    <p>Kakao AdFit ads may be enabled in production. When ads are active, cookies, access logs, and ad identifiers may be processed for ad delivery, frequency management, performance measurement, and abuse prevention.</p>
-    <p>Sudoku progress, personal records, settings, and puzzle entries are stored in localStorage and are not directly passed as ad targeting values. You can limit or delete cookies in your browser settings.</p>
+    <h2>Advertising & Affiliate Notice</h2>
+    <p>SudokuDay may display affiliate product banners through Coupang Partners and receive a small commission accordingly. We do not use third-party personalized tracking ad networks.</p>
+    <p>Sudoku progress, personal records, settings, and puzzle entries are stored only in your browser's localStorage and are not transmitted to external ad servers.</p>
     <h2>Sharing</h2>
     <p>The share button uses your operating system's Web Share feature or the clipboard. The result text is shared only when you start the share action.</p>
     <p><small>Last updated: August 9, 2026</small></p>
   </div></section>
+  <CoupangBanner locale="en" />
 </BaseLayout>
